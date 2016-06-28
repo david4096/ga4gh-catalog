@@ -36,8 +36,8 @@ class ListVariantSets extends Component {
         contentType: "application/json", 
         success: (result) => {
           this.setState({variantSets: this.state.variantSets.concat(result.variantSets)});
-          if (result.nextPageToken != null) {
-            this.loadFromServer(nextPageToken)
+          if (result.nextPageToken != "") {
+            this.loadFromServer(result.nextPageToken)
           }
         },
         error: (xhr, status, err) => {
@@ -80,8 +80,8 @@ class ListReadGroupSets extends Component {
         contentType: "application/json", 
         success: (result) => {
           this.setState({readgroupsets: this.state.readgroupsets.concat(result.readGroupSets)});
-          if (result.nextPageToken != null) {
-            this.loadFromServer(nextPageToken);
+          if (result.nextPageToken !== "") {
+            this.loadFromServer(result.nextPageToken);
           }
         },
         error: (xhr, status, err) => {

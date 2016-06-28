@@ -62,7 +62,7 @@ class ListDatasets extends Component {
     let type = {'content-type': 'application/json'};
     this.serverRequest = $.ajax(
       { url: this.props.baseurl + "/datasets/search", 
-        type: "POST", data: JSON.stringify({a: "b"}), 
+        type: "POST", data: JSON.stringify({pageToken: null}), 
         dataType: "json", 
         contentType: "application/json", 
         success: (result) => {

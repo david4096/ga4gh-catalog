@@ -33,8 +33,8 @@ class ListReferences extends Component {
         contentType: "application/json", 
         success: (result) => {
           this.setState({references: this.state.references.concat(result.references)});
-          if (result.nextPageToken != null) {
-            this.loadFromServer(nextPageToken)
+          if (result.nextPageToken !== "") {
+            this.loadFromServer(result.nextPageToken)
           }
         },
         error: (xhr, status, err) => {

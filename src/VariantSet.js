@@ -35,8 +35,8 @@ class ListVariantAnnotationSets extends Component {
         contentType: "application/json", 
         success: (result) => {
           this.setState({variantannotationsets: this.state.variantannotationsets.concat(result.variantAnnotationSets)});
-          if (result.nextPageToken != null) {
-            this.loadFromServer(nextPageToken)
+          if (result.nextPageToken != "") {
+            this.loadFromServer(result.nextPageToken)
           }
           console.log(result);
         },
@@ -84,8 +84,8 @@ class ListVariants extends Component {
         contentType: "application/json", 
         success: (result) => {
           this.setState({variants: this.state.variants.concat(result.variants)});
-          if (result.nextPageToken != null) {
-            this.loadFromServer(nextPageToken)
+          if (result.nextPageToken !== "") {
+            this.loadFromServer(result.nextPageToken)
           }
         },
         error: (xhr, status, err) => {
