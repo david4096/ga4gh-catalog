@@ -147,6 +147,7 @@ class ListMetadata extends Component {
 class Metadata extends Component {
     
     render() {
+        console.log("my metadata", this.props);
          return <tr>
                 <td>{this.props.description}</td>
                 <td>{this.props.id}</td>
