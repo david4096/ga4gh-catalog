@@ -5,7 +5,7 @@ import ReferenceSet from './ReferenceSet.js'
 
 // load initial list of datasets
 
-//datasets/search
+//datasets/search 
 //pageToken: null,
 
 //paths = {}
@@ -61,7 +61,7 @@ class ListDatasets extends Component {
   loadFromServer() {
     let type = {'content-type': 'application/json'};
     this.serverRequest = $.ajax(
-      { url: this.props.baseurl + "/datasets/search", 
+      { url: this.props.baseurl + "/datasets/search",
         type: "POST", data: JSON.stringify({pageToken: null}), 
         dataType: "json", 
         contentType: "application/json", 
@@ -97,8 +97,8 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <ListReferenceSets baseurl="http://localhost:8000"/>
-        <ListDatasets baseurl="http://localhost:8000"/>
+        <ListReferenceSets baseurl="http://1kgenomes.ga4gh.org/"/>
+        <ListDatasets baseurl="http://1kgenomes.ga4gh.org/"/>
       </div>
     );
   }

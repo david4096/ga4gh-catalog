@@ -5,12 +5,20 @@ export default class ReadGroupSet extends Component {
   render() {
     // <ListVariants variantSetId={this.props.id} baseurl={this.props.baseurl} />
     return (
-      <div>
-        <h2>Read group set</h2>
-        <div>name: {this.props.name}</div>
-        <div>id: {this.props.id}</div>
-        <div><ListReadGroups readGroups={this.props.readGroups} baseurl={this.props.baseurl} /></div>
-      </div>
+        <table>
+            <tr>
+                <td id="groupSetHeader" colSpan="2">
+                Read group set: {this.props.name} ({this.props.id})
+                </td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <th>ID</th>
+            </tr>
+            <tbody>
+                <ListReadGroups readGroups={this.props.readGroups} baseurl={this.props.baseurl} />
+            </tbody>
+        </table>
     )
   }
 }
@@ -19,11 +27,11 @@ class ListReadGroups extends Component {
   render() {
     let readgroups = this.props.readGroups;
     return (
-      <div>
+      <tr>
       {readgroups.map((readgroup) => {
         return <ReadGroup baseurl={this.props.baseurl} {... readgroup} />
       })}
-      </div>
+      </tr>
     )
   }
 }
@@ -31,11 +39,11 @@ class ListReadGroups extends Component {
 class ReadGroup extends Component {
   render() {
     return (
-      <div>
-        <h3>Read Group</h3>
-        <div>name: {this.props.name}</div>
-        <div>id: {this.props.id}</div>
-      </div>
+        
+      <tr>
+        <td>{this.props.name}</td>
+        <td>{this.props.id}</td>
+      </tr>
     )
   }
 }
