@@ -3,8 +3,10 @@ import $ from 'jquery'
 import Variant from './Variant.js'
 import VariantAnnotationSet from './VariantAnnotationSet.js'
 
+
 export default class VariantSet extends Component {
   render() {
+      console.log("metadata: ", this.props);
     // <ListVariants variantSetId={this.props.id} baseurl={this.props.baseurl} />
     return (
       <div>
@@ -12,7 +14,9 @@ export default class VariantSet extends Component {
         <div>name: {this.props.name}</div>
         <div>id: {this.props.id}</div>
         <div>refId: {this.props.referenceSetId}</div>
+        <ListMetadata metadata={this.props.metadata}/>
         <ListVariantAnnotationSets variantSetId={this.props.id} baseurl={this.props.baseurl} />
+            
       </div>
     )
   }
@@ -89,7 +93,7 @@ class ListVariants extends Component {
           }
         },
         error: (xhr, status, err) => {
-          console.log(err);
+          console.log("variant error " + err);
         }
     });
   }
@@ -110,4 +114,46 @@ class ListVariants extends Component {
       </div>
     )
   }
+}
+
+class ListMetadata extends Component {
+    constructor() {
+        super()
+        this.state = {
+        metadata: []
+        }
+    }
+    
+    render() {
+        return <div><h4>Metadata</h4>
+            <table>
+            <tr>
+                <th>description</th>
+                <th>id</th>
+                <th>#</th>
+                <th>key</th>
+                <th>type</th>
+            </tr>
+            {this.props.metadata.map((meta) => {
+             
+             return <Metadata baseurl={this.props.baseurl} {... meta} />
+                
+        })}</table>
+        </div>
+    }
+    
+}
+
+class Metadata extends Component {
+    
+    render() {
+         return <tr>
+                <td>{this.props.description}</td>
+                <td>{this.props.id}</td>
+                <td>{this.props.number}</td>
+                <td>{this.props.key}</td>
+                <td>{this.props.type}</td>
+                </tr>
+    }
+    
 }
