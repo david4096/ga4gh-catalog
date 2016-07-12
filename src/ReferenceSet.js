@@ -6,10 +6,9 @@ export default class ReferenceSet extends Component {
     // <ListVariants variantSetId={this.props.id} baseurl={this.props.baseurl} />
     return (
       <div>
-        <h3>Reference set</h3>
-        <div>name: {this.props.name}</div>
-        <div>id: {this.props.id}</div>
-        <div>refId: {this.props.referenceSetId}</div>
+        <h1>Reference set: {this.props.name} ({this.props.id})</h1>
+        <div>description: {this.props.description}</div>
+        <div>md5checksum: {this.props.md5checksum}</div>
       </div>
     )
   }

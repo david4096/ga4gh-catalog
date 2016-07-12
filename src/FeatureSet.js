@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import $ from 'jquery'
 import Dataset from './Dataset.js'
 import ReferenceSet from './ReferenceSet.js'
+import ID from './ID.js'
 
 // load initial list of datasets
 
@@ -16,12 +16,10 @@ export default class FeatureSet extends Component {
         return (
                 <div>
                 <h3>Feature set</h3>
-                <div>id: {this.props.id}</div>
+                <div>id: <ID id={this.props.id} /></div>
                 <div>name: {this.props.name}</div>
                 <div>referenceSetId: {this.props.referenceSetId}</div>
                 </div>
         )
     }
 }
-
-

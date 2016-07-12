@@ -3,13 +3,15 @@ import $ from 'jquery'
 import VariantSet from './VariantSet.js'
 import ReadGroupSet from './ReadGroupSet.js'
 import FeatureSet from './FeatureSet.js'
-
+import ID from './ID.js'
 
 export default class Dataset extends Component {
   render() {
+      //console.log("Dataset", this.props);
     return (
       <div>
-        <h1>Dataset: {this.props.name} ({this.props.id})</h1>
+        <h1>Dataset: {this.props.name} (<ID id={this.props.id} />)</h1>
+        <div>description: {this.props.description}</div>
         <div><ListVariantSets {... this.props} datasetId={this.props.id} /></div>
         <div><ListFeatureSets {... this.props} datasetId={this.props.id} /></div>
         <div><h3>Read Group Sets</h3><ListReadGroupSets {... this.props} datasetId={this.props.id} /></div>
@@ -17,7 +19,6 @@ export default class Dataset extends Component {
     )
   }
 }
-
 
 
 class ListVariantSets extends Component {

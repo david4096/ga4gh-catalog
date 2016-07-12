@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import $ from 'jquery'
 import Variant from './Variant.js'
 import VariantAnnotationSet from './VariantAnnotationSet.js'
+import ID from './ID.js'
 
 
 export default class VariantSet extends Component {
   render() {
-      console.log("metadata: ", this.props);
+      //console.log("metadata: ", this.props);
     // <ListVariants variantSetId={this.props.id} baseurl={this.props.baseurl} />
     return (
       <div>
         <h3>Variant set</h3>
         <div>name: {this.props.name}</div>
-        <div>id: {this.props.id}</div>
+        <div>id: <ID id={this.props.id} /></div>
         <div>refId: {this.props.referenceSetId}</div>
         <ListMetadata metadata={this.props.metadata}/>
         <ListVariantAnnotationSets variantSetId={this.props.id} baseurl={this.props.baseurl} />
@@ -42,7 +43,7 @@ class ListVariantAnnotationSets extends Component {
           if (result.nextPageToken != "") {
             this.loadFromServer(result.nextPageToken)
           }
-          console.log(result);
+          //console.log(result);
         },
         error: (xhr, status, err) => {
           console.log(err);
@@ -147,10 +148,10 @@ class ListMetadata extends Component {
 class Metadata extends Component {
     
     render() {
-        console.log("my metadata", this.props);
+        //console.log("my metadata", this.props);
          return <tr>
                 <td>{this.props.description}</td>
-                <td>{this.props.id}</td>
+                <td><ID id={this.props.id} /></td>
                 <td>{this.props.number}</td>
                 <td>{this.props.key}</td>
                 <td>{this.props.type}</td>
