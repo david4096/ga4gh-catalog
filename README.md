@@ -45,3 +45,9 @@ This boilerplate is purposefully simple to show the minimal configuration for Re
 * [Integrating JSX live reload into your workflow](http://gaearon.github.io/react-hot-loader/getstarted/)
 * [Troubleshooting guide](https://github.com/gaearon/react-hot-loader/blob/master/docs/Troubleshooting.md)
 * Ping dan_abramov on Twitter or #reactjs IRC
+
+### Description
+
+This is a catalog for GA4GH's API (found at 1Kgenomes.ga4gh.org). It makes API calls which return a JSON object, and the application renders useful information from that. There are currently only large containers of data which include the dataset, reference set, feature set, and read group sets. In progress: accessing smaller and more spsecific data such as a list of variants within a variant set, possibly through links to other pages. 
+
+Features: if you click on an ID, the ID will copy itself to your clipboard. 
