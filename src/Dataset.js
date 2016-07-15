@@ -11,10 +11,10 @@ export default class Dataset extends Component {
     return (
       <div>
         <h1>Dataset: {this.props.name} (<ID id={this.props.id} />)</h1>
-        <div>description: {this.props.description}</div>
+        <h3>{this.props.description}</h3>
         <div><ListVariantSets {... this.props} datasetId={this.props.id} /></div>
         <div><ListFeatureSets {... this.props} datasetId={this.props.id} /></div>
-        <div><h3>Read Group Sets</h3><ListReadGroupSets {... this.props} datasetId={this.props.id} /></div>
+        <div><h2>Read Group Sets</h2><ListReadGroupSets {... this.props} datasetId={this.props.id} /></div>
       </div>
     )
   }

@@ -15,7 +15,7 @@ export default class FeatureSet extends Component {
     render() {
         return (
                 <div>
-                <h3>Feature set</h3>
+                <h2>Feature set</h2>
                 <div>id: <ID id={this.props.id} /></div>
                 <div>name: {this.props.name}</div>
                 <div>referenceSetId: {this.props.referenceSetId}</div>
