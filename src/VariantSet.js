@@ -4,6 +4,7 @@ import Variant from './Variant.js'
 import VariantAnnotationSet from './VariantAnnotationSet.js'
 import ID from './ID.js'
 import CallSet from './CallSet.js'
+import Toggle from './Toggle.js'
 
 export default class VariantSet extends Component {
   render() {
@@ -15,6 +16,7 @@ export default class VariantSet extends Component {
         <div>name: {this.props.name}</div>
         <div>id: <ID id={this.props.id} /></div>
         <div>refId: {this.props.referenceSetId}</div>
+        <Toggle />
         <ListMetadata metadata={this.props.metadata}/>
         <ListVariantAnnotationSets variantSetId={this.props.id} baseurl={this.props.baseurl} />
       </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ID from './ID.js'
+import Toggle from './Toggle.js'
 
 export default class ReadGroupSet extends Component {
   render() {
@@ -47,7 +48,7 @@ class ListReadGroups extends Component {
 
 class ReadGroup extends Component {
   render() {
-    //console.log("read group", this.props)
+    //console.log("read group", this.props);
     return (
       <tr>
         <td>{this.props.name}</td>
@@ -58,6 +59,7 @@ class ReadGroup extends Component {
         <td>{this.props.sampleId}</td>
         <td>{this.props.updated}</td>
         <td><ReadGroupStats {... this.props.stats} /></td>
+            
       </tr>
     )
   }

@@ -4,6 +4,7 @@ import VariantSet from './VariantSet.js'
 import ReadGroupSet from './ReadGroupSet.js'
 import FeatureSet from './FeatureSet.js'
 import ID from './ID.js'
+import Toggle from './Toggle.js'
 
 export default class Dataset extends Component {
   render() {
@@ -12,6 +13,7 @@ export default class Dataset extends Component {
       <div>
         <h1>Dataset: {this.props.name} (<ID id={this.props.id} />)</h1>
         <h3>{this.props.description}</h3>
+        <Toggle />
         <div><ListVariantSets {... this.props} datasetId={this.props.id} /></div>
         <div><ListFeatureSets {... this.props} datasetId={this.props.id} /></div>
         <div><h2>Read Group Sets</h2><ListReadGroupSets {... this.props} datasetId={this.props.id} /></div>
@@ -126,7 +128,7 @@ class ListReadGroupSets extends Component {
         success: (result) => {
           this.setState({readgroupsets: this.state.readgroupsets.concat(result.readGroupSets)});
           if (result.nextPageToken !== "") {
-            this.loadFromServer(result.nextPageToken);
+            //this.loadFromServer(result.nextPageToken);
           }
         },
         error: (xhr, status, err) => {
