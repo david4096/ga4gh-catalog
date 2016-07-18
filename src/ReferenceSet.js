@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ID from './ID.js'
 import $ from 'jquery'
 
 export default class ReferenceSet extends Component {
@@ -6,10 +7,9 @@ export default class ReferenceSet extends Component {
     // <ListVariants variantSetId={this.props.id} baseurl={this.props.baseurl} />
     return (
       <div>
-        <h3>Reference set</h3>
-        <div>name: {this.props.name}</div>
-        <div>id: {this.props.id}</div>
-        <div>refId: {this.props.referenceSetId}</div>
+        <h1>Reference set: {this.props.name} (<ID id={this.props.id} />)</h1>
+        <h3>{this.props.description}</h3>
+        <div>md5checksum: {this.props.md5checksum}</div>
       </div>
     )
   }

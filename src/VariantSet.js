@@ -2,21 +2,21 @@ import React, { Component } from 'react';
 import $ from 'jquery'
 import Variant from './Variant.js'
 import VariantAnnotationSet from './VariantAnnotationSet.js'
-
+import ID from './ID.js'
+import CallSet from './CallSet.js'
 
 export default class VariantSet extends Component {
   render() {
-      console.log("metadata: ", this.props);
+      //console.log("metadata: ", this.props);
     // <ListVariants variantSetId={this.props.id} baseurl={this.props.baseurl} />
     return (
       <div>
-        <h3>Variant set</h3>
+        <h2>Variant set</h2>
         <div>name: {this.props.name}</div>
-        <div>id: {this.props.id}</div>
+        <div>id: <ID id={this.props.id} /></div>
         <div>refId: {this.props.referenceSetId}</div>
         <ListMetadata metadata={this.props.metadata}/>
         <ListVariantAnnotationSets variantSetId={this.props.id} baseurl={this.props.baseurl} />
-            
       </div>
     )
   }
@@ -42,7 +42,7 @@ class ListVariantAnnotationSets extends Component {
           if (result.nextPageToken != "") {
             this.loadFromServer(result.nextPageToken)
           }
-          console.log(result);
+          //console.log(result);
         },
         error: (xhr, status, err) => {
           console.log(err);
@@ -81,6 +81,7 @@ class ListVariants extends Component {
         type: "POST", data: JSON.stringify({
           start: 0,
           end: Math.pow(2,32) - 1,
+          callSetIds: this.props.callSetIds,
           referenceName: "1",
           variantSetId: this.props.variantSetId,
           pageToken: pageToken}), 
@@ -105,6 +106,7 @@ class ListVariants extends Component {
   }
   render() {
     let variants = this.state.variants;
+    console.log(variants.length)
     return (
       <div>
       <h2>Variants</h2>
@@ -132,6 +134,7 @@ class ListMetadata extends Component {
                 <th>id</th>
                 <th>#</th>
                 <th>key</th>
+                <th>value</th>
                 <th>type</th>
             </tr>
             {this.props.metadata.map((meta) => {
@@ -141,19 +144,68 @@ class ListMetadata extends Component {
         })}</table>
         </div>
     }
-    
 }
 
 class Metadata extends Component {
-    
     render() {
+        //console.log("my metadata", this.props);
          return <tr>
                 <td>{this.props.description}</td>
-                <td>{this.props.id}</td>
+                <td><ID id={this.props.id} /></td>
                 <td>{this.props.number}</td>
                 <td>{this.props.key}</td>
+                <td>{this.props.value}</td>
                 <td>{this.props.type}</td>
                 </tr>
     }
+}
+
+class ListCallSets extends Component {
+  constructor() {
+    super()
+    this.state = {
+      callSets: [],
+      callSetIds: []
+    }
+  }
+  loadFromServer(pageToken=null) {
+    let type = {'content-type': 'application/json'};
+    this.serverRequest = $.ajax(
+      { url: this.props.baseurl + "/callsets/search",
+        type: "POST", data: JSON.stringify({
+          variantSetId: this.props.variantSetId,
+          pageToken: pageToken}), 
+        dataType: "json", 
+        contentType: "application/json", 
+        success: (result) => {
+          this.setState({callSets: this.state.callSets.concat(result.callSets)});
+          if (result.nextPageToken !== "") {
+            this.loadFromServer(result.nextPageToken)
+          }
+        },
+        error: (xhr, status, err) => {
+          console.log("variant error " + err);
+        }
+    });
+  }
+  componentDidMount() {
+    this.loadFromServer();
     
+  }
+  componentWillUnmount() {
+    this.serverRequest.abort();
+  }
+  render() {
+    let callsets = this.state.callSets;
+    let callsetids = this.state.callSetIds;
+    {callsets.map((callset) => {
+        callsetids.push(callset.id);
+      })}
+    return (
+      <div>
+        <ListVariants baseurl={this.props.baseurl} variantSetId={this.props.variantSetId}
+        callSetIds={callsetids}/>
+      </div>
+    )
+  }
 }

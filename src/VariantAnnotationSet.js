@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import $ from 'jquery'
 import Variant from './Variant.js'
 
 export default class VariantAnnotationSet extends Component {
