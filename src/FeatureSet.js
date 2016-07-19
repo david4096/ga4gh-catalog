@@ -18,7 +18,7 @@ export default class FeatureSet extends Component {
                 <h2>Feature set</h2>
                 <div>id: <ID id={this.props.id} /></div>
                 <div>name: {this.props.name}</div>
-                <div>referenceSetId: {this.props.referenceSetId}</div>
+                <div>referenceSetId: <ID id={this.props.referenceSetId} /></div>
                 </div>
         )
     }
