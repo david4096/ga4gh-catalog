@@ -16,7 +16,6 @@ export default class Toggle extends Component {
         return content.is(":visible") ? "hide" : "show";
       });
     });
-    
   }
     
   render() {
@@ -26,5 +25,6 @@ export default class Toggle extends Component {
         hide
       </button>
     )
+
   }
 }

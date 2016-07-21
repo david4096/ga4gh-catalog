@@ -13,9 +13,9 @@ export default class VariantSet extends Component {
     return (
       <div>
         <h2>Variant set</h2>
-        <div>name: {this.props.name}</div>
-        <div>id: <ID id={this.props.id} /></div>
-        <div>refId: <ID id={this.props.referenceSetId} /></div>
+        <div>{this.props.name} <span className="label label-primary">name</span> </div>
+        <div><ID id={this.props.id} /> <span className="label label-primary">id</span></div>
+        <div><ID id={this.props.referenceSetId} /> <span className="label label-primary">refId</span></div>
         <Toggle />
         <ListMetadata metadata={this.props.metadata}/>
         <ListVariantAnnotationSets variantSetId={this.props.id} baseurl={this.props.baseurl} />

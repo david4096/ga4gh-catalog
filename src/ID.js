@@ -12,8 +12,6 @@ export default class ID extends Component {
       document.execCommand("copy");
       document.body.removeChild(aux);
       
-      console.log(e._reactInternalInstance._rootNodeID);
-      
       var element = document.getElementById(e._reactInternalInstance._rootNodeID);
       
       element.style.color = "gold";
@@ -26,7 +24,7 @@ export default class ID extends Component {
   render() {
       //console.log({this.props.id}, ": ", {this._reactInternalInstance});
     return (
-      <span id={this._reactInternalInstance._rootNodeID} onClick={()=>this.copyToClipboard(this, this.props.id)}>
+      <span className="pointer" id={this._reactInternalInstance._rootNodeID} onClick={()=>this.copyToClipboard(this, this.props.id)}>
             {this.props.id}
       </span>
     )

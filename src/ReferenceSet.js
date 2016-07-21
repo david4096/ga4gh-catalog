@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
-import ID from './ID.js'
 import $ from 'jquery'
+import ID from './ID.js'
+import Toggle from './Toggle.js'
+import Reference from './Reference.js'
 
 export default class ReferenceSet extends Component {
   render() {
     // <ListVariants variantSetId={this.props.id} baseurl={this.props.baseurl} />
+      console.log(this.props);
     return (
       <div>
         <h1>Reference set: {this.props.name} (<ID id={this.props.id} />)</h1>
         <h3>{this.props.description}</h3>
-        <div>md5checksum: {this.props.md5checksum}</div>
+        <div>{this.props.md5checksum} <span className="label label-primary">md5checksum</span></div>
+        <div>{this.props.ncbiTaxonId} <span className="label label-primary">ncbiTaxonId</span></div>
+        <div>{this.props.sourceUri} <span className="label label-primary">sourceUri</span></div>
+        <Toggle />
+        <ListReferences baseurl={this.props.baseurl} referenceSetId={this.props.id} />
       </div>
     )
   }
@@ -34,7 +41,7 @@ class ListReferences extends Component {
         success: (result) => {
           this.setState({references: this.state.references.concat(result.references)});
           if (result.nextPageToken !== "") {
-            this.loadFromServer(result.nextPageToken)
+            //this.loadFromServer(result.nextPageToken)
           }
         },
         error: (xhr, status, err) => {
@@ -52,22 +59,22 @@ class ListReferences extends Component {
     let references = this.state.references;
     return (
       <div>
-      <h2>Variants</h2>
+      <h3>References</h3>
+      <table>
+      <tr>
+        <th>id</th>
+        <th className="right">name</th>
+        <th className="right">source Uri</th>
+        <th className="right">source divergence</th>
+        <th className="right">length</th>
+        <th className="right">ncbi taxon ID</th>
+        <th className="right">is derived</th>
+        <th>md5checksum</th>
+      </tr>
       {references.map((reference) => {
         return <Reference baseurl={this.props.baseurl} {... reference} />
       })}
-      </div>
-    )
-  }
-}
-
-class Reference extends Component {
-  render() {
-    return (
-      <div>
-        <h3>Variant</h3>
-        <div>name: {this.props.name}</div>
-        <div>id: {this.props.id}</div>
+      </table>
       </div>
     )
   }

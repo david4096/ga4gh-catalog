@@ -16,8 +16,9 @@ export default class Dataset extends Component {
         <Toggle />
         <div><ListVariantSets {... this.props} datasetId={this.props.id} /></div>
         <div><ListFeatureSets {... this.props} datasetId={this.props.id} /></div>
-        <div><h2>Read Group Sets</h2><ListReadGroupSets {... this.props} datasetId={this.props.id} /></div>
-      </div>
+        <div><h2>Read Group Sets</h2>
+        <Toggle />
+        <ListReadGroupSets {... this.props} datasetId={this.props.id} /></div></div>
     )
   }
 }
@@ -114,7 +115,7 @@ class ListReadGroupSets extends Component {
   constructor() {
     super()
     this.state = {
-      readgroupsets: []
+      readgroupsets: [] 
     }
   }
   loadFromServer(pageToken=null) {
