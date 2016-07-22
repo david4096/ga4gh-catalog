@@ -14,12 +14,13 @@ import ID from './ID.js'
 export default class FeatureSet extends Component {
     render() {
         return (
-                <div>
-                <h2>Feature set</h2>
-                <div>id: <ID id={this.props.id} /></div>
-                <div>name: {this.props.name}</div>
-                <div>referenceSetId: {this.props.referenceSetId}</div>
-                </div>
+            <div>
+            <h2>Feature set</h2>
+            <div>{this.props.description} <span className="label label-primary">description</span></div>
+            <div><ID id={this.props.id} /> <span className="label label-primary">id</span></div>
+            <div>{this.props.name} <span className="label label-primary">name</span></div>
+            <div><ID id={this.props.referenceSetId} /> <span className="label label-primary">refId</span></div>
+            </div>
         )
     }
 }

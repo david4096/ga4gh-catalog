@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ID from './ID.js'
+import Toggle from './Toggle.js'
 
 export default class ReadGroupSet extends Component {
   render() {
@@ -9,7 +10,7 @@ export default class ReadGroupSet extends Component {
             <div>
         <table>
             <tr>
-                <td id="groupSetHeader" colSpan="6">
+                <td id="groupSetHeader" colSpan="8">
                 Read group set: {this.props.name} (<ID id={this.props.id} />)
                 </td>
             </tr>
@@ -46,17 +47,24 @@ class ListReadGroups extends Component {
 }
 
 class ReadGroup extends Component {
+  humanReadable(d){
+      var date = new Date(parseInt(d));
+      date = date.getMonth() + "/" + date.getDate() + "/" + (parseInt(date.getYear()) + 1900) + " " + (parseInt(date.getHours()) % 12) + ":" + ('0'  + date.getMinutes()).slice(-2) + " " + ((date.getHours() >= 12) ? "PM" : "AM");
+      return date;
+  }
   render() {
-    //console.log("read group", this.props)
+    var updated = this.humanReadable(this.props.updated);
+    var created = this.humanReadable(this.props.created);
+    //console.log("read group", this.props);
     return (
       <tr>
         <td>{this.props.name}</td>
         <td><ID id={this.props.id} /></td>
-        <td>{this.props.created}</td>
+        <td>{created}</td>
         <td>{this.props.description}</td>
         <td>{this.props.predictedInsertSize}</td>
         <td>{this.props.sampleId}</td>
-        <td>{this.props.updated}</td>
+        <td>{updated}</td>
         <td><ReadGroupStats {... this.props.stats} /></td>
       </tr>
     )
@@ -71,7 +79,6 @@ class ReadGroupStats extends Component {
             <tr><td><small>un-aligned</small></td><td>{this.props.unalignedReadCount}</td></tr>
             <tr><td><small>base count</small></td><td>{this.props.baseCount}</td></tr>
         </table>
-        
     )
   }
 }

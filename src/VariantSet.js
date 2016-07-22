@@ -4,6 +4,7 @@ import Variant from './Variant.js'
 import VariantAnnotationSet from './VariantAnnotationSet.js'
 import ID from './ID.js'
 import CallSet from './CallSet.js'
+import Toggle from './Toggle.js'
 
 export default class VariantSet extends Component {
   render() {
@@ -12,9 +13,10 @@ export default class VariantSet extends Component {
     return (
       <div>
         <h2>Variant set</h2>
-        <div>name: {this.props.name}</div>
-        <div>id: <ID id={this.props.id} /></div>
-        <div>refId: {this.props.referenceSetId}</div>
+        <div>{this.props.name} <span className="label label-primary">name</span> </div>
+        <div><ID id={this.props.id} /> <span className="label label-primary">id</span></div>
+        <div><ID id={this.props.referenceSetId} /> <span className="label label-primary">refId</span></div>
+        <Toggle />
         <ListMetadata metadata={this.props.metadata}/>
         <ListVariantAnnotationSets variantSetId={this.props.id} baseurl={this.props.baseurl} />
       </div>
@@ -138,8 +140,7 @@ class ListMetadata extends Component {
                 <th>type</th>
             </tr>
             {this.props.metadata.map((meta) => {
-             
-             return <Metadata baseurl={this.props.baseurl} {... meta} />
+             return <Metadata baseurl={this.props.baseurl} {... meta} keyValue={meta.key}/>
                 
         })}</table>
         </div>
@@ -153,7 +154,7 @@ class Metadata extends Component {
                 <td>{this.props.description}</td>
                 <td><ID id={this.props.id} /></td>
                 <td>{this.props.number}</td>
-                <td>{this.props.key}</td>
+                <td>{this.props.keyValue}</td>
                 <td>{this.props.value}</td>
                 <td>{this.props.type}</td>
                 </tr>

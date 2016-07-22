@@ -38,3 +38,16 @@ th {
 #statsTable{
     table-layout: auto;
 }
+
+button {
+    background-color: black;
+    display: inline-block;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    width: 100%;
+    cursor: pointer;
+}
