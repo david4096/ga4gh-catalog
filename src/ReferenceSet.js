@@ -15,7 +15,7 @@ export default class ReferenceSet extends Component {
         <div>{this.props.md5checksum} <span className="label label-primary">md5checksum</span></div>
         <div>{this.props.ncbiTaxonId} <span className="label label-primary">ncbiTaxonId</span></div>
         <div>{this.props.sourceUri} <span className="label label-primary">sourceUri</span></div>
-        <Toggle />
+        <Toggle text="reference set"/>
         <ListReferences baseurl={this.props.baseurl} referenceSetId={this.props.id} />
       </div>
     )
@@ -58,7 +58,7 @@ class ListReferences extends Component {
   render() {
     let references = this.state.references;
     return (
-      <div>
+      <div className="scrollable">
       <h3>References</h3>
       <table>
       <tr>

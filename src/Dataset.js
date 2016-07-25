@@ -13,11 +13,11 @@ export default class Dataset extends Component {
       <div>
         <h1>Dataset: {this.props.name} (<ID id={this.props.id} />)</h1>
         <h3>{this.props.description}</h3>
-        <Toggle />
+        <Toggle text="dataset"/>
         <div><ListVariantSets {... this.props} datasetId={this.props.id} /></div>
         <div><ListFeatureSets {... this.props} datasetId={this.props.id} /></div>
         <div><h2>Read Group Sets</h2>
-        <Toggle />
+        <Toggle text="read group sets"/>
         <ListReadGroupSets {... this.props} datasetId={this.props.id} /></div></div>
     )
   }
@@ -146,7 +146,7 @@ class ListReadGroupSets extends Component {
   render() {
     let readgroupsets = this.state.readgroupsets;
     return (
-      <div>
+      <div className="scrollable">
       {readgroupsets.map((readgroupset) => {
         return <ReadGroupSet baseurl={this.props.baseurl} {... readgroupset} />
       })}

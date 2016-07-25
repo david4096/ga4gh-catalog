@@ -16,8 +16,9 @@ export default class VariantSet extends Component {
         <div>{this.props.name} <span className="label label-primary">name</span> </div>
         <div><ID id={this.props.id} /> <span className="label label-primary">id</span></div>
         <div><ID id={this.props.referenceSetId} /> <span className="label label-primary">refId</span></div>
-        <Toggle />
-        <ListMetadata metadata={this.props.metadata}/>
+        <Toggle text="variant set"/>
+        <ListCallSets variantSetId={this.props.id} baseurl={this.props.baseurl} />
+        <ListMetadata metadata={this.props.metadata} />
         <ListVariantAnnotationSets variantSetId={this.props.id} baseurl={this.props.baseurl} />
       </div>
     )
@@ -92,7 +93,7 @@ class ListVariants extends Component {
         success: (result) => {
           this.setState({variants: this.state.variants.concat(result.variants)});
           if (result.nextPageToken !== "") {
-            this.loadFromServer(result.nextPageToken)
+            //this.loadFromServer(result.nextPageToken)
           }
         },
         error: (xhr, status, err) => {
@@ -108,13 +109,23 @@ class ListVariants extends Component {
   }
   render() {
     let variants = this.state.variants;
-    console.log(variants.length)
     return (
       <div>
       <h2>Variants</h2>
+      <table>
+      <tr>
+        <th>name</th>
+        <th>ref</th>
+        <th>id</th>
+        <th>start</th>
+        <th>end</th>
+        <th>ref bases</th>
+        <th>alternate bases</th>
+      </tr>
       {variants.map((variant) => {
         return <Variant baseurl={this.props.baseurl} {... variant} />
       })}
+      </table>
       </div>
     )
   }
