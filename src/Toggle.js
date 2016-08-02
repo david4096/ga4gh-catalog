@@ -4,7 +4,6 @@ import $ from 'jquery'
 export default class Toggle extends Component {
 
   toggleView(e, text){
-    
     if (!text)
       text = "";
     var header = $(document.getElementById(e._reactInternalInstance._rootNodeID));
@@ -21,13 +20,25 @@ export default class Toggle extends Component {
     });
   }
     
+  componentDidMount(){
+      if (this.props.defaultView == "hide"){
+          this.toggleView(this, this.props.text);
+      }
+  }
+    
   render() {
       //console.log({this.props.id}, ": ", {this._reactInternalInstance});
+    if (this.props.wrapper == "span"){
+      return (
+        <h3 id={this._reactInternalInstance._rootNodeID} onClick={()=>this.toggleView(this, this.props.text)}>
+              hide {this.props.text}
+        </h3>
+      )
+    }
     return (
-      <button style={{width: "100%"}} id={this._reactInternalInstance._rootNodeID} onClick={()=>this.toggleView(this, this.props.text)}>
-            hide {this.props.text}
-      </button>
-    )
-
-  }
+        <button id={this._reactInternalInstance._rootNodeID} onClick={()=>this.toggleView(this, this.props.text)}>
+              hide {this.props.text}
+        </button>
+      )
+    }
 }

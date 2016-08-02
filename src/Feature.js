@@ -4,14 +4,6 @@ import { Router, Route, Link, browserHistory } from 'react-router'
 
 export default class Variant extends Component {
   render() {
-    var name = this.props.names;
-    var refBases = "", rb;
-    for (rb in this.props.referenceBases){
-      refBases = refBases.concat(" ", this.props.referenceBases[rb]);
-    }
-    if (name == ""){
-        name = "N/A";
-    }
     return (
       <tr>
         <td><Link to={'/variants/'+this.props.id}>{name}</Link></td>

@@ -4,17 +4,14 @@ import ID from './ID.js'
 
 export default class VariantAnnotationSet extends Component {
   render() {
-      console.log("vas", this.props);
     return (
       <div>
         <h3>Variant Annotation Set</h3>
         <div>{this.props.name} <span className="label label-primary">name</span></div>
         <div><ID id={this.props.id} /> <span className="label label-primary">id</span></div>
-        <div>{this.props.analysis.createDateTime} <span className="label label-primary">create date time</span>
+        <div>{this.props.analysis.created} <span className="label label-primary">created</span>
         </div>
-        <div>{this.props.analysis.updateDateTime} <span className="label label-primary">update date time</span>
-        </div>
-            <ListAnalysis info={this.props.analysis.info}/>
+        <ListAnalysis info={this.props.analysis.info}/>
       </div>
     )
   }

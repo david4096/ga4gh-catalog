@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Dataset from './Dataset.js'
 import ReferenceSet from './ReferenceSet.js'
 import ID from './ID.js'
+import { Link } from 'react-router'
 
 // load initial list of datasets
 
@@ -15,11 +16,8 @@ export default class FeatureSet extends Component {
     render() {
         return (
             <div>
-            <h2>Feature set</h2>
-            <div>{this.props.description} <span className="label label-primary">description</span></div>
-            <div><ID id={this.props.id} /> <span className="label label-primary">id</span></div>
-            <div>{this.props.name} <span className="label label-primary">name</span></div>
-            <div><ID id={this.props.referenceSetId} /> <span className="label label-primary">refId</span></div>
+            <h2><Link to={'/featuresets/'+this.props.id}>Feature set: {this.props.name} </Link>(<ID id={this.props.id} />)</h2>
+            <h3>{this.props.description}</h3>
             </div>
         )
     }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ID from './ID.js'
+import { Router, Route, Link, browserHistory } from 'react-router'
 
 export default class ReadGroupSet extends Component {
   render() {
@@ -54,11 +55,9 @@ class ReadGroup extends Component {
   render() {
     var updated = this.humanReadable(this.props.updated);
     var created = this.humanReadable(this.props.created);
-    console.log("read group", this.props);
     return (
       <tr>
-      <tr>
-        <td>{this.props.name}</td>
+        <td><Link to={'/readgroups/'+this.props.id}>{this.props.name}</Link></td>
         <td><ID id={this.props.id} /></td>
         <td>{created}</td>
         <td>{this.props.description}</td>
@@ -66,10 +65,6 @@ class ReadGroup extends Component {
         <td>{this.props.sampleId}</td>
         <td>{updated}</td>
         <td><ReadGroupStats {... this.props.stats} /></td>
-      </tr>
-      <tr>
-        <td></td>
-      </tr>
       </tr>
     )
   }
