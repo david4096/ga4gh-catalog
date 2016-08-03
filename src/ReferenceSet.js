@@ -3,26 +3,24 @@ import $ from 'jquery'
 import ID from './ID.js'
 import Toggle from './Toggle.js'
 import Reference from './Reference.js'
+import { Link } from 'react-router'
 
 export default class ReferenceSet extends Component {
   render() {
     // <ListVariants variantSetId={this.props.id} baseurl={this.props.baseurl} />
-      console.log(this.props);
     return (
       <div>
-        <h1>Reference set: {this.props.name} (<ID id={this.props.id} />)</h1>
+        <h1><Link to={'/referencesets/'+this.props.id}>Reference set: {this.props.name} </Link>
+          (<ID id={this.props.id} />)</h1>
         <h3>{this.props.description}</h3>
-        <div>{this.props.md5checksum} <span className="label label-primary">md5checksum</span></div>
-        <div>{this.props.ncbiTaxonId} <span className="label label-primary">ncbiTaxonId</span></div>
-        <div>{this.props.sourceUri} <span className="label label-primary">sourceUri</span></div>
-        <Toggle />
+        <Toggle text="reference set" defaultView="hide"/>
         <ListReferences baseurl={this.props.baseurl} referenceSetId={this.props.id} />
       </div>
     )
   }
 }
 
-class ListReferences extends Component {
+export class ListReferences extends Component {
   constructor() {
     super()
     this.state = {
@@ -58,7 +56,7 @@ class ListReferences extends Component {
   render() {
     let references = this.state.references;
     return (
-      <div>
+      <div className="scrollable">
       <h3>References</h3>
       <table>
       <tr>

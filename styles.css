@@ -1,4 +1,4 @@
-div {padding: 4px;}
+div {padding: 8px;}
 table, td, th {
     border: 1px solid #ddd;
     text-align: left;
@@ -21,17 +21,23 @@ th, td {
 
 body {
     font-family: arial;
-    
+}
+
+.json{
+    white-space: pre;
+    font-family: monospace;
+    font-size:13px;
 }
 
 td {
     word-wrap: break-word;
+    position: relative
 }
 
 tr:nth-child(even){background-color: #f2f2f2}
 
 th {
-    background-color: black;
+    background-color: #660000;
     color: white;
 }
 
@@ -40,7 +46,7 @@ th {
 }
 
 button {
-    background-color: black;
+    background-color: #00004d;
     display: inline-block;
     border: none;
     color: white;
@@ -50,4 +56,82 @@ button {
     margin: 4px 2px;
     width: 100%;
     cursor: pointer;
+}
+
+.center{
+    text-align: center;
+}
+.right{
+    text-align:right;
+}
+
+.pointer{
+    cursor: pointer;
+    
+}
+
+h1{
+    color: #00004d;
+}
+h3, h4{
+    color: #264d00;
+}
+
+td {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111;
+}
+
+input[type=text] {
+    padding: 12px 30px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid red;
+    text-align: center;
+}
+
+input[type=submit] {
+    background-color: darkcyan;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.searchBar {
+    padding-right: 16px;
+}
+
+.search{
+    border-left: 6px solid red;
+    padding: 8px;
 }

@@ -5,26 +5,18 @@ import VariantAnnotationSet from './VariantAnnotationSet.js'
 import ID from './ID.js'
 import CallSet from './CallSet.js'
 import Toggle from './Toggle.js'
+import { Link } from 'react-router'
 
 export default class VariantSet extends Component {
   render() {
-      //console.log("metadata: ", this.props);
-    // <ListVariants variantSetId={this.props.id} baseurl={this.props.baseurl} />
     return (
       <div>
-        <h2>Variant set</h2>
-        <div>{this.props.name} <span className="label label-primary">name</span> </div>
-        <div><ID id={this.props.id} /> <span className="label label-primary">id</span></div>
-        <div><ID id={this.props.referenceSetId} /> <span className="label label-primary">refId</span></div>
-        <Toggle />
-        <ListMetadata metadata={this.props.metadata}/>
-        <ListVariantAnnotationSets variantSetId={this.props.id} baseurl={this.props.baseurl} />
+        <h2><Link to={'/variantsets/'+this.props.id}>Variant set: {this.props.name}</Link> (<ID id={this.props.id} />)</h2>
       </div>
     )
   }
 }
-
-class ListVariantAnnotationSets extends Component {
+export class ListVariantAnnotationSets extends Component {
   constructor() {
     super()
     this.state = {
@@ -44,7 +36,6 @@ class ListVariantAnnotationSets extends Component {
           if (result.nextPageToken != "") {
             this.loadFromServer(result.nextPageToken)
           }
-          //console.log(result);
         },
         error: (xhr, status, err) => {
           console.log(err);
@@ -69,22 +60,29 @@ class ListVariantAnnotationSets extends Component {
   }
 }
 
-class ListVariants extends Component {
+export class ListVariants extends Component {
   constructor() {
     super()
     this.state = {
-      variants: []
+      variants: [],
+      referenceName: "",
+      start: "",
+      end: ""
     }
+  }
+  changedState(){
+      return ((this.props.referenceName != this.state.referenceName)
+              || (this.props.start != this.state.start)
+              || (this.props.end != this.state.end));
   }
   loadFromServer(pageToken=null) {
     let type = {'content-type': 'application/json'};
     this.serverRequest = $.ajax(
       { url: this.props.baseurl + "/variants/search", 
         type: "POST", data: JSON.stringify({
-          start: 0,
-          end: Math.pow(2,32) - 1,
-          callSetIds: this.props.callSetIds,
-          referenceName: "1",
+          start: this.props.start,
+          end: this.props.end,
+          referenceName: this.props.referenceName,
           variantSetId: this.props.variantSetId,
           pageToken: pageToken}), 
         dataType: "json", 
@@ -92,7 +90,8 @@ class ListVariants extends Component {
         success: (result) => {
           this.setState({variants: this.state.variants.concat(result.variants)});
           if (result.nextPageToken !== "") {
-            this.loadFromServer(result.nextPageToken)
+            //console.log(result.nextPageToken);
+            //this.loadFromServer(result.nextPageToken);
           }
         },
         error: (xhr, status, err) => {
@@ -107,39 +106,81 @@ class ListVariants extends Component {
     this.serverRequest.abort();
   }
   render() {
+    if (this.changedState()){
+        this.setState({variants: []});
+        this.loadFromServer();
+        //console.log("refresh");
+        //console.log("state: ", this.state.referenceName);
+        //console.log("props: ", this.props.referenceName);
+        this.state.referenceName = this.props.referenceName;
+        this.state.start = this.props.start;
+        this.state.end = this.props.end;
+        console.log("changed");
+    }
     let variants = this.state.variants;
-    console.log(variants.length)
     return (
       <div>
       <h2>Variants</h2>
+      <table>
+      <tr>
+        <th>name</th>
+        <th>ref</th>
+        <th>id</th>
+        <th>start</th>
+        <th>end</th>
+        <th>ref bases</th>
+        <th>alternate bases</th>
+      </tr>
       {variants.map((variant) => {
         return <Variant baseurl={this.props.baseurl} {... variant} />
       })}
+      </table>
       </div>
     )
   }
 }
 
-class ListMetadata extends Component {
+export class ListMetadata extends Component {
     constructor() {
         super()
         this.state = {
         metadata: []
         }
     }
-    
+    loadFromServer() {
+      let type = {'content-type': 'application/json'};
+      this.serverRequest = $.ajax(
+        { url: this.props.baseurl + "variantsets/" + this.props.variantSetId,
+          type: "GET", data: JSON.stringify({}),
+          dataType: "json",
+          contentType: "application/json",
+          success: (result) => {
+            this.setState({metadata: result.metadata});
+        },
+          error: (xhr, status, err) => {
+            console.log(err);
+          }
+      });
+    }
+    componentDidMount() {
+      this.loadFromServer();
+    }
+    componentWillUnmount() {
+      this.serverRequest.abort();
+    }
     render() {
         return <div><h4>Metadata</h4>
+            <Toggle text="metadata" defaultView="hide"/>
             <table>
             <tr>
                 <th>description</th>
-                <th>id</th>
+                <th className="IDcell">id</th>
                 <th>#</th>
                 <th>key</th>
                 <th>value</th>
                 <th>type</th>
             </tr>
-            {this.props.metadata.map((meta) => {
+            {this.state.metadata.map((meta) => {
              return <Metadata baseurl={this.props.baseurl} {... meta} keyValue={meta.key}/>
                 
         })}</table>
@@ -147,7 +188,7 @@ class ListMetadata extends Component {
     }
 }
 
-class Metadata extends Component {
+export class Metadata extends Component {
     render() {
         //console.log("my metadata", this.props);
          return <tr>
@@ -160,8 +201,7 @@ class Metadata extends Component {
                 </tr>
     }
 }
-
-class ListCallSets extends Component {
+export class ListCallSets extends Component {
   constructor() {
     super()
     this.state = {

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import $ from 'jquery'
 import Dataset from './Dataset.js'
 import ReferenceSet from './ReferenceSet.js'
+import { Link } from 'react-router'
+import Navbar from './Navbar.js'
 
 // load initial list of datasets
 
@@ -91,14 +93,10 @@ class ListDatasets extends Component {
   }
 }
 
-
-
 export default class App extends Component {
   render() {
-      
     return (
       <div>
-        
         <ListReferenceSets baseurl="http://1kgenomes.ga4gh.org/"/>
         <ListDatasets baseurl="http://1kgenomes.ga4gh.org/"/>
       </div>
