@@ -25,7 +25,6 @@ export default class Dataset extends Component {
   }
 }
 
-
 class ListVariantSets extends Component {
   constructor() {
     super()
