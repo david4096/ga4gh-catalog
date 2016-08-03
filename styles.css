@@ -77,7 +77,8 @@ h3, h4{
     color: #264d00;
 }
 
-.IDcell {
+td {
+    max-width: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

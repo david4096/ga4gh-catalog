@@ -97,7 +97,6 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <Navbar />
         <ListReferenceSets baseurl="http://1kgenomes.ga4gh.org/"/>
         <ListDatasets baseurl="http://1kgenomes.ga4gh.org/"/>
       </div>

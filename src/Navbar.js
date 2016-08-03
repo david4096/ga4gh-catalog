@@ -7,10 +7,7 @@ export default class Navbar extends Component {
   render(){
     return(
       <ul>
-        <li><a href="#dataset">Dataset</a></li>
-        <li><a href="#variantsets">Variant Sets</a></li>
-        <li><a href="#featuresets">Feature Sets</a></li>
-        <li style={{float: "right"}}><a className="active" href="#about">About</a></li>
+        <li style={{float: "right"}}><a className="active" href="#about"><Link to={'/about/'}>About</Link></a></li>
       </ul>
     )
   }

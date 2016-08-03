@@ -193,7 +193,7 @@ export class Metadata extends Component {
         //console.log("my metadata", this.props);
          return <tr>
                 <td>{this.props.description}</td>
-                <td><ID id={this.props.id} /></td>
+                <td className="IDcell"><ID id={this.props.id} /></td>
                 <td>{this.props.number}</td>
                 <td>{this.props.keyValue}</td>
                 <td>{this.props.value}</td>
