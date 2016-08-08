@@ -36,7 +36,7 @@ export default class Toggle extends Component {
       )
     }
     return (
-        <button id={this._reactInternalInstance._rootNodeID} onClick={()=>this.toggleView(this, this.props.text)}>
+        <button className="toggle" id={this._reactInternalInstance._rootNodeID} onClick={()=>this.toggleView(this, this.props.text)}>
               hide {this.props.text}
         </button>
       )

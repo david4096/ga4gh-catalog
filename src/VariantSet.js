@@ -64,18 +64,23 @@ export class ListVariants extends Component {
   constructor() {
     super()
     this.state = {
+      totalVariants: [],
       variants: [],
       referenceName: "",
       start: "",
-      end: ""
+      end: "",
+      pageSize: "",
+      currPage: 0,
+      pageTokens: [null]
     }
   }
   changedState(){
       return ((this.props.referenceName != this.state.referenceName)
               || (this.props.start != this.state.start)
-              || (this.props.end != this.state.end));
+              || (this.props.end != this.state.end)
+              || (this.props.pageSize != this.state.pageSize));
   }
-  loadFromServer(pageToken=null) {
+  loadFromServer(pageToken=this.state.pageTokens[this.state.currPage]) {
     let type = {'content-type': 'application/json'};
     this.serverRequest = $.ajax(
       { url: this.props.baseurl + "/variants/search", 
@@ -84,15 +89,20 @@ export class ListVariants extends Component {
           end: this.props.end,
           referenceName: this.props.referenceName,
           variantSetId: this.props.variantSetId,
+          pageSize: this.props.pageSize,
           pageToken: pageToken}), 
         dataType: "json", 
         contentType: "application/json", 
-        success: (result) => {
+         success: (result) => {
           this.setState({variants: this.state.variants.concat(result.variants)});
-          if (result.nextPageToken !== "") {
-            //console.log(result.nextPageToken);
-            //this.loadFromServer(result.nextPageToken);
-          }
+          this.setState({pageTokens: this.state.pageTokens.concat(result.pageToken)});
+          /*if (result.nextPageToken !== ""){
+            if (this.state.pagesLoaded < 10){
+              this.loadFromServer(result.nextPageToken);
+              this.state.pagesLoaded = this.state.pagesLoaded + 1;
+              this.state.totalVariants[this.state.pagesLoaded] = result.variants;
+            }
+          }*/
         },
         error: (xhr, status, err) => {
           console.log("variant error " + err);
@@ -115,8 +125,10 @@ export class ListVariants extends Component {
         this.state.referenceName = this.props.referenceName;
         this.state.start = this.props.start;
         this.state.end = this.props.end;
-        console.log("changed");
-    }
+        this.state.pageSize = this.props.pageSize;
+        }
+        //this.state.variants = this.state.totalVariants[this.props.currPage];
+
     let variants = this.state.variants;
     return (
       <div>
@@ -169,7 +181,8 @@ export class ListMetadata extends Component {
       this.serverRequest.abort();
     }
     render() {
-        return <div><h4>Metadata</h4>
+        return <div>
+            <h4>Metadata</h4>
             <Toggle text="metadata" defaultView="hide"/>
             <table>
             <tr>
@@ -247,6 +260,78 @@ export class ListCallSets extends Component {
         <ListVariants baseurl={this.props.baseurl} variantSetId={this.props.variantSetId}
         callSetIds={callsetids}/>
       </div>
+    )
+  }
+}
+
+export class SearchVariants extends Component {
+  constructor() {
+    super()
+    this.state = {
+      data: "",
+      refName: "",
+      start: "",
+      end: "",
+      pageSize: "",
+      totalPages: 0,
+      currPage: 0
+    }
+  }
+  searchVariants(){
+    var refName = document.getElementById("refName").value;
+    var start = document.getElementById("start").value;
+    var end = document.getElementById("end").value;
+    var pageSize = document.getElementById("pageSize").value;
+    this.setState({refName: refName});
+    this.setState({start: start});
+    this.setState({end: end});
+    this.setState({pageSize: pageSize});
+    //console.log("ref name", this.state.refName);
+  }
+  loadFromServer() {
+    let type = {'content-type': 'application/json'};
+    this.serverRequest = $.ajax(
+      { url: this.props.baseurl + "variantsets/" + this.props.id,
+        type: "GET", data: JSON.stringify({}),
+        dataType: "json", 
+        contentType: "application/json", 
+        success: (result) => {
+          //console.log("loaded");
+          //console.log(JSON.stringify(result));
+          this.setState({data: result});
+        },
+        error: (xhr, status, err) => {
+          console.log(err);
+        }
+    });
+  }
+  updateCurrentPage(p){
+      this.setState({currPage: currPage + p})
+  }
+  componentDidMount() {
+    this.loadFromServer();
+  }
+  componentWillUnmount() {
+    this.serverRequest.abort();
+  }
+  render() {
+    let data = this.state.data;
+    return (
+        <span>
+        <div>
+          <span className="searchBar">reference name: <input id="refName" size="5" defaultValue="1" type="text"/>
+            </span>
+          <span className="searchBar">start: <input id="start" size="12" defaultValue="0" type="text"/></span>
+          <span className="searchBar">end: <input size="12" id="end" defaultValue="4294967295" type="text"/>
+            </span>
+          <span className="searchBar">pageSize: <input size="4" id="pageSize" defaultValue="30" type="text"/>
+            </span>
+          <input onClick={()=>this.searchVariants()} type="submit" value="Search"/>
+          <button onClick={()=>this.updateCurrentPage()} className="button"> &larr; </button>
+          <button className="button"> &rarr; </button>
+        </div>
+        <ListVariants baseurl={this.props.baseurl} variantSetId={this.props.id} referenceName={this.state.refName} start={this.state.start} end={this.state.end} pageSize={this.state.pageSize} />
+        </span>
     )
   }
 }

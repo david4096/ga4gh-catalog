@@ -13,10 +13,11 @@ export default class ID extends Component {
       document.body.removeChild(aux);
       
       var element = document.getElementById(e._reactInternalInstance._rootNodeID);
+      var origCol = element.style.color;
       
       element.style.color = "gold";
       setTimeout(function(){
-        element.style.color = "black";
+        element.style.color = origCol;
       }, 200);
       
     }

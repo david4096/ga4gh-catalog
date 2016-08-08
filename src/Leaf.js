@@ -24,11 +24,10 @@ export default class Leaf extends Component{
     });
   }
   componentDidMount() {
-    console.log("mounted");
     this.loadFromServer();
   }
   render() {
-    console.log("leaf", this.state.leaf);
+    //console.log("leaf", this.state.leaf);
     return <div className="json">
              <h3>{this.props.route.container}</h3>
              <div>{this.state.leaf}</div>
