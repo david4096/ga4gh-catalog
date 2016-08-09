@@ -21,7 +21,10 @@
     "edit",
     "webpack"
   ],
-  "author": "David Steinberg",
+  "author": "Alexander Doria",
+  "contributors": [{
+      "name": "David Steinberg"
+   }],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/david4096/ga4gh-catalog/issues"
