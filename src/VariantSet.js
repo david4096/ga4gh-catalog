@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import $ from 'jquery'
 import Variant from './Variant.js'
 import VariantAnnotationSet from './VariantAnnotationSet.js'
-import ID from './ID.js'
+import ID, { buttonID } from './ID.js'
 import CallSet from './CallSet.js'
 import Toggle from './Toggle.js'
 import { Link } from 'react-router'
@@ -71,16 +71,20 @@ export class ListVariants extends Component {
       end: "",
       pageSize: "",
       currPage: 0,
+      largestPage: 0,
       pageTokens: [null]
     }
   }
-  changedState(){
-      return ((this.props.referenceName != this.state.referenceName)
-              || (this.props.start != this.state.start)
-              || (this.props.end != this.state.end)
-              || (this.props.pageSize != this.state.pageSize));
+  changedParamsState(){
+    return ((this.props.referenceName != this.state.referenceName)
+      || (this.props.start != this.state.start)
+      || (this.props.end != this.state.end)
+      || (this.props.pageSize != this.state.pageSize));
   }
-  loadFromServer(pageToken=this.state.pageTokens[this.state.currPage]) {
+  changedPageState(){
+    return (this.props.currPage != this.state.currPage);
+  }
+  loadFromServer(pageToken=this.state.pageTokens[this.props.currPage]) {
     let type = {'content-type': 'application/json'};
     this.serverRequest = $.ajax(
       { url: this.props.baseurl + "/variants/search", 
@@ -95,14 +99,9 @@ export class ListVariants extends Component {
         contentType: "application/json", 
          success: (result) => {
           this.setState({variants: this.state.variants.concat(result.variants)});
-          this.setState({pageTokens: this.state.pageTokens.concat(result.pageToken)});
-          /*if (result.nextPageToken !== ""){
-            if (this.state.pagesLoaded < 10){
-              this.loadFromServer(result.nextPageToken);
-              this.state.pagesLoaded = this.state.pagesLoaded + 1;
-              this.state.totalVariants[this.state.pagesLoaded] = result.variants;
-            }
-          }*/
+          if (this.state.largestPage == this.state.currPage && !this.state.pageTokens.includes(result.nextPageToken))
+            this.setState({pageTokens: this.state.pageTokens.concat(result.nextPageToken)});
+          console.log("curr pages: ", this.state.pageTokens);
         },
         error: (xhr, status, err) => {
           console.log("variant error " + err);
@@ -116,23 +115,38 @@ export class ListVariants extends Component {
     this.serverRequest.abort();
   }
   render() {
-    if (this.changedState()){
-        this.setState({variants: []});
-        this.loadFromServer();
-        //console.log("refresh");
-        //console.log("state: ", this.state.referenceName);
-        //console.log("props: ", this.props.referenceName);
-        this.state.referenceName = this.props.referenceName;
-        this.state.start = this.props.start;
-        this.state.end = this.props.end;
-        this.state.pageSize = this.props.pageSize;
-        }
-        //this.state.variants = this.state.totalVariants[this.props.currPage];
+    if (this.changedParamsState() || this.changedPageState()){
+      this.setState({variants: []});
+      this.state.currPage = this.props.currPage;
+      if (this.state.currPage > this.state.largestPage){
+        this.state.largestPage = this.state.currPage;
+      }
+      console.log("currPage ", this.state.currPage);
+      console.log("largest page ", this.state.largestPage);
+    if (!this.changedPageState() && this.changedParamsState()){
+      this.state.pageTokens = [null];
+      this.state.largestPage = 0;
+      this.state.currPage = 0;
+      console.log("reset");
+    }
+    this.loadFromServer();
+    //console.log("refresh");
+    //console.log("state: ", this.state.referenceName);
+    //console.log("props: ", this.props.referenceName);
+    this.state.referenceName = this.props.referenceName;
+    this.state.start = this.props.start;
+    this.state.end = this.props.end;
+    this.state.pageSize = this.props.pageSize;
+    }
+    
+    /*if (this.changedPageState()){
+      this.state.currPage = this.props.currPage;
+    }*/
 
     let variants = this.state.variants;
     return (
       <div>
-      <h2>Variants</h2>
+      <h2>Variants (page: {this.state.currPage})</h2>
       <table>
       <tr>
         <th>name</th>
@@ -202,18 +216,19 @@ export class ListMetadata extends Component {
 }
 
 export class Metadata extends Component {
-    render() {
-        //console.log("my metadata", this.props);
-         return <tr>
-                <td>{this.props.description}</td>
-                <td><ID id={this.props.id} /></td>
-                <td>{this.props.number}</td>
-                <td>{this.props.keyValue}</td>
-                <td>{this.props.value}</td>
-                <td>{this.props.type}</td>
-                </tr>
+  render() {
+    //console.log("my metadata", this.props);
+    return <tr>
+      <td>{this.props.description}</td>
+      <td><ID id={this.props.id} /></td>
+      <td>{this.props.number}</td>
+      <td>{this.props.keyValue}</td>
+      <td>{this.props.value}</td>
+      <td>{this.props.type}</td>
+      </tr>
     }
 }
+
 export class ListCallSets extends Component {
   constructor() {
     super()
@@ -273,11 +288,11 @@ export class SearchVariants extends Component {
       start: "",
       end: "",
       pageSize: "",
-      totalPages: 0,
       currPage: 0
     }
   }
   searchVariants(){
+    this.setState({currPage: 0});
     var refName = document.getElementById("refName").value;
     var start = document.getElementById("start").value;
     var end = document.getElementById("end").value;
@@ -288,36 +303,15 @@ export class SearchVariants extends Component {
     this.setState({pageSize: pageSize});
     //console.log("ref name", this.state.refName);
   }
-  loadFromServer() {
-    let type = {'content-type': 'application/json'};
-    this.serverRequest = $.ajax(
-      { url: this.props.baseurl + "variantsets/" + this.props.id,
-        type: "GET", data: JSON.stringify({}),
-        dataType: "json", 
-        contentType: "application/json", 
-        success: (result) => {
-          //console.log("loaded");
-          //console.log(JSON.stringify(result));
-          this.setState({data: result});
-        },
-        error: (xhr, status, err) => {
-          console.log(err);
-        }
-    });
-  }
   updateCurrentPage(p){
-      this.setState({currPage: currPage + p})
-  }
-  componentDidMount() {
-    this.loadFromServer();
-  }
-  componentWillUnmount() {
-    this.serverRequest.abort();
+    if (this.state.currPage + p >= 0)
+      this.state.currPage = this.state.currPage + p;
+    console.log("currPage: ", this.state.currPage);
   }
   render() {
     let data = this.state.data;
     return (
-        <span>
+      <span>
         <div>
           <span className="searchBar">reference name: <input id="refName" size="5" defaultValue="1" type="text"/>
             </span>
@@ -327,11 +321,11 @@ export class SearchVariants extends Component {
           <span className="searchBar">pageSize: <input size="4" id="pageSize" defaultValue="30" type="text"/>
             </span>
           <input onClick={()=>this.searchVariants()} type="submit" value="Search"/>
-          <button onClick={()=>this.updateCurrentPage()} className="button"> &larr; </button>
-          <button className="button"> &rarr; </button>
+          <button onClick={()=>this.updateCurrentPage(-1)} className="button"> &larr; </button>
+          <button onClick={()=>this.updateCurrentPage(1)} className="button"> &rarr; </button>
         </div>
-        <ListVariants baseurl={this.props.baseurl} variantSetId={this.props.id} referenceName={this.state.refName} start={this.state.start} end={this.state.end} pageSize={this.state.pageSize} />
-        </span>
+        <ListVariants baseurl={this.props.baseurl} variantSetId={this.props.id} referenceName={this.state.refName} start={this.state.start} end={this.state.end} pageSize={this.state.pageSize} currPage={this.state.currPage} />
+      </span>
     )
   }
 }

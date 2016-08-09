@@ -70,7 +70,15 @@ export default class Container extends Component{
         )
     }
     else if (this.props.route.container == "featuresets/"){
-        return <span>featuresets</span>
+        this.loadFromServer();
+        let data = this.state.data;
+        console.log("data", data);
+        return <div>
+        <h2>featuresets/</h2>
+        <div>{data.name} <span className="label label-primary">name</span> </div>
+        <div><ID id={data.id} /> <span className="label label-primary">id</span></div>
+        <div><ID id={data.referenceSetId} /> <span className="label label-primary">refId</span></div>
+        </div>
     }
     
     else if (this.props.route.container == "datasets/"){
