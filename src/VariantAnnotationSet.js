@@ -9,8 +9,7 @@ export default class VariantAnnotationSet extends Component {
         <h3>Variant Annotation Set</h3>
         <div>{this.props.name} <span className="label label-primary">name</span></div>
         <div><ID id={this.props.id} /> <span className="label label-primary">id</span></div>
-        <div>{this.props.analysis.created} <span className="label label-primary">created</span>
-        </div>
+        <div>{this.props.analysis.created} <span className="label label-primary">created</span></div>
         <ListAnalysis info={this.props.analysis.info}/>
       </div>
     )
