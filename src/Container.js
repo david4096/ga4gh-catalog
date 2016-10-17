@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import ReferenceSet from './ReferenceSet.js'
 import { ListReferences } from './ReferenceSet.js'
+import { ListFeatures, SearchFeatures } from './FeatureSet.js'
 import VariantSet from './VariantSet.js'
 import { ListMetadata, ListVariantAnnotationSets, ListVariants,SearchVariants }
   from './VariantSet.js'
 import ID from './ID.js'
 import Toggle from './Toggle.js'
+
 
 export default class Container extends Component{
   constructor() {
@@ -31,13 +33,16 @@ export default class Container extends Component{
         }
     });
   }
+  componentWillUnmount() {
+      this.serverRequest.abort();
+    }
   render() {
     //console.log("data", this.state.data);
     if (this.props.route.container == "referencesets/"){
       this.loadFromServer();
       let data = this.state.data;
       return <div>
-        <h2>referencesets/</h2>
+        <h3>referencesets/</h3>
           <div><ID id={data.id} /> <span className="label label-primary">id</span></div>
           <div>{data.name} <span className="label label-primary">name</span></div>
           <div>{data.description} <span className="label label-primary">description</span></div>
@@ -50,10 +55,10 @@ export default class Container extends Component{
     else if (this.props.route.container == "variantsets/"){
       this.loadFromServer();
       let data = this.state.data;
-      //console.log("data", data);
+      console.log("props", this.props);
         return (
         <div>
-          <h2>variantsets/</h2>
+          <h3>variantsets/</h3>
           <div>{data.name} <span className="label label-primary">name</span> </div>
           <div><ID id={data.id} /> <span className="label label-primary">id</span></div>
           <div><ID id={data.referenceSetId} /> <span className="label label-primary">refId</span></div>
@@ -72,12 +77,15 @@ export default class Container extends Component{
     else if (this.props.route.container == "featuresets/"){
         this.loadFromServer();
         let data = this.state.data;
-        console.log("data", data);
+        //console.log("data", data);
         return <div>
-        <h2>featuresets/</h2>
-        <div>{data.name} <span className="label label-primary">name</span> </div>
-        <div><ID id={data.id} /> <span className="label label-primary">id</span></div>
-        <div><ID id={data.referenceSetId} /> <span className="label label-primary">refId</span></div>
+          <h3>featuresets/</h3>
+          <div>{data.name} <span className="label label-primary">name</span> </div>
+          <div><ID id={data.id} /> <span className="label label-primary">id</span></div>
+          <div><ID id={data.referenceSetId} /> <span className="label label-primary">refId</span></div>
+          <div className="redContainer">
+            <SearchFeatures baseurl={this.props.route.baseurl} id={this.props.params.id} />
+          </div>
         </div>
     }
     

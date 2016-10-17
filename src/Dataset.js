@@ -13,8 +13,8 @@ export default class Dataset extends Component {
       //console.log("Dataset", this.props);
     return (
       <div>
-        <h1><Link to={'/datasets/'+this.props.id}>Dataset: {this.props.name} </Link>(<ID id={this.props.id} />)</h1>
-        <h3>{this.props.description}</h3>
+        <h1><Link to={'/datasets/'+this.props.id}>Dataset: {this.props.name} </Link></h1><h2>(<ID id={this.props.id} />)</h2>
+        <h3><i style={{color: "#e520de"}}>{this.props.description}</i></h3>
         <Toggle text="dataset"/>
         <div><ListVariantSets {... this.props} datasetId={this.props.id} /></div>
         <div><ListFeatureSets {... this.props} datasetId={this.props.id} /></div>
@@ -60,7 +60,7 @@ class ListVariantSets extends Component {
   render() {
     let variantsets = this.state.variantSets;
     return (
-      <div>
+      <div className="blueContainer">
       {variantsets.map((variantset) => {
         return <VariantSet baseurl={this.props.baseurl} {... variantset} />
       })}
@@ -103,7 +103,7 @@ class ListFeatureSets extends Component {
   render() {
     let featureSets = this.state.featureSets;
     return (
-      <div>
+      <div className="greenContainer">
       {featureSets.map((featureSet) => {
         return <FeatureSet {... this.props} {... featureSet} />
       })}

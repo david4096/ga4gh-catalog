@@ -59,6 +59,10 @@ th {
     cursor: pointer;
 }
 
+.toggle:hover{
+    background-color: #900C3F;
+}
+
 .center{
     text-align: center;
 }
@@ -127,6 +131,10 @@ input[type=submit] {
     cursor: pointer;
 }
 
+input[type=submit]:hover{
+    background-color: #08AD92;
+}
+
 .searchBar {
     padding-right: 16px;
 }
@@ -183,4 +191,7 @@ input[type=submit] {
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
+}
+.button:hover{
+    background-color: #900C3F;
 }
