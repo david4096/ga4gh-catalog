@@ -3,7 +3,6 @@ import $ from 'jquery'
 import Variant from './Variant.js'
 import VariantAnnotationSet from './VariantAnnotationSet.js'
 import ID, { buttonID } from './ID.js'
-import CallSet from './CallSet.js'
 import Toggle from './Toggle.js'
 import { Link } from 'react-router'
 
@@ -11,7 +10,7 @@ export default class VariantSet extends Component {
   render() {
     return (
       <div>
-        <h2><Link to={'/variantsets/'+this.props.id}>Variant set: {this.props.name}</Link> (<ID id={this.props.id} />)</h2>
+        <h2><Link to={'/variantsets/'+this.props.id}>Variant set: {this.props.name}</Link></h2> <h4> (<ID id={this.props.id} />) </h4>
       </div>
     )
   }
@@ -64,7 +63,6 @@ export class ListVariants extends Component {
   constructor() {
     super()
     this.state = {
-      totalVariants: [],
       variants: [],
       referenceName: "",
       start: "",
@@ -130,9 +128,6 @@ export class ListVariants extends Component {
       console.log("reset");
     }
     this.loadFromServer();
-    //console.log("refresh");
-    //console.log("state: ", this.state.referenceName);
-    //console.log("props: ", this.props.referenceName);
     this.state.referenceName = this.props.referenceName;
     this.state.start = this.props.start;
     this.state.end = this.props.end;
@@ -313,8 +308,7 @@ export class SearchVariants extends Component {
     return (
       <span>
         <div>
-          <span className="searchBar">reference name: <input id="refName" size="5" defaultValue="1" type="text"/>
-            </span>
+          <span className="searchBar">reference name: <input id="refName" size="5" defaultValue="1" type="text"/></span>
           <span className="searchBar">start: <input id="start" size="12" defaultValue="0" type="text"/></span>
           <span className="searchBar">end: <input size="12" id="end" defaultValue="4294967295" type="text"/>
             </span>

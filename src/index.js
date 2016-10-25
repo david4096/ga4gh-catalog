@@ -11,13 +11,15 @@ ReactDOM.render(<Router history={browserHistory}>
     <Route path="/" component={App}/>
     <Route path="/readgroups/:id" container="readgroups/" baseurl="http://1kgenomes.ga4gh.org/"
       component={leaf}/>
-    <Route path="/variants/:id" container="variants/" baseurl="http://1kgenomes.ga4gh.org/"
+    <Route path="/variants/:id" prevContainer="variantsets/" container="variants/" baseurl="http://1kgenomes.ga4gh.org/"
+      component={leaf}/>
+    <Route path="/features/:id" container="features/" baseurl="http://1kgenomes.ga4gh.org/"
       component={leaf}/>
     <Route path="/referencesets/:id" container="referencesets/" baseurl="http://1kgenomes.ga4gh.org/"
       component={Container}/>
     <Route path="/datasets/:id" container="datasets/" baseurl="http://1kgenomes.ga4gh.org/"
       component={Container}/>
-    <Route path="/variantsets/:id" container="variantsets/" baseurl="http://1kgenomes.ga4gh.org/"
+    <Route path="/variantsets/:id" prevContainer="dataset/" container="variantsets/" baseurl="http://1kgenomes.ga4gh.org/"
       component={Container}/>
     <Route path="/featuresets/:id" container="featuresets/" baseurl="http://1kgenomes.ga4gh.org/"
       component={Container}/>

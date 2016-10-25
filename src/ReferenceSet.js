@@ -10,9 +10,9 @@ export default class ReferenceSet extends Component {
     // <ListVariants variantSetId={this.props.id} baseurl={this.props.baseurl} />
     return (
       <div>
-        <h1><Link to={'/referencesets/'+this.props.id}>Reference set: {this.props.name} </Link>
-          (<ID id={this.props.id} />)</h1>
-        <h3>{this.props.description}</h3>
+        <h1><Link to={'/referencesets/'+this.props.id}>Reference set: {this.props.name} </Link></h1>
+          <h2>(<ID id={this.props.id} />)</h2>
+        <h3 style={{color:"#e520de"}}><i>{this.props.description}</i></h3>
         <Toggle text="reference set" defaultView="hide"/>
         <ListReferences baseurl={this.props.baseurl} referenceSetId={this.props.id} />
       </div>

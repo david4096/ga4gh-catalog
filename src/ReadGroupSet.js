@@ -4,6 +4,7 @@ import { Router, Route, Link, browserHistory } from 'react-router'
 
 export default class ReadGroupSet extends Component {
   render() {
+      console.log(this.props);
     // <ListVariants variantSetId={this.props.id} baseurl={this.props.baseurl} />
       //console.log("read group set", this.props);
     return (

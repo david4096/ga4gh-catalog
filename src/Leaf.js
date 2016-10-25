@@ -26,6 +26,7 @@ export default class Leaf extends Component{
   componentDidMount() {
     this.loadFromServer();
   }
+    
   render() {
     //console.log("leaf", this.state.leaf);
     return <div className="json">
