@@ -77,3 +77,79 @@ export class ListReferences extends Component {
     )
   }
 }
+
+export class SelectReferences extends Component {
+  constructor() {
+    super()
+    this.state = {
+      view: "",
+      references: []
+    }
+  }
+  loadFromServer(pageToken=null) {
+    let type = {'content-type': 'application/json'};
+    this.serverRequest = $.ajax(
+      { url: this.props.baseurl + "/references/search", 
+        type: "POST", data: JSON.stringify({
+          referenceSetId: this.props.referenceSetId,
+          pageToken: pageToken}), 
+        dataType: "json", 
+        contentType: "application/json", 
+        success: (result) => {
+          this.setState({references: this.state.references.concat(result.references)});
+          if (result.nextPageToken !== "") {
+            //this.loadFromServer(result.nextPageToken)
+          }
+        },
+        error: (xhr, status, err) => {
+          console.log(err);
+        }
+    });
+  }
+  componentDidMount() {
+    this.loadFromServer();
+  }
+  componentWillUnmount() {
+    this.serverRequest.abort();
+  }
+  render() {
+    let references = this.state.references;
+      
+    //if in variants or feature view, search for references differently e.g. "chr1" for
+    //features and "1" for variants
+    if (this.props.layout == "variants"){
+        this.state.prefix = "";
+    }
+    else if (this.props.layout == "features"){
+        this.state.prefix = "chr";
+    }
+    return (
+      <span>
+      <select id={this.props.id}>
+        <option value={this.state.prefix+"1"}>{this.state.prefix+"1"}</option>
+        <option value={this.state.prefix+"2"}>{this.state.prefix+"2"}</option>
+        <option value={this.state.prefix+"3"}>{this.state.prefix+"3"}</option>
+        <option value={this.state.prefix+"4"}>{this.state.prefix+"4"}</option>
+        <option value={this.state.prefix+"5"}>{this.state.prefix+"5"}</option>
+        <option value={this.state.prefix+"6"}>{this.state.prefix+"6"}</option>
+        <option value={this.state.prefix+"7"}>{this.state.prefix+"7"}</option>
+        <option value={this.state.prefix+"8"}>{this.state.prefix+"8"}</option>
+        <option value={this.state.prefix+"9"}>{this.state.prefix+"9"}</option>
+        <option value={this.state.prefix+"10"}>{this.state.prefix+"10"}</option>
+        <option value={this.state.prefix+"11"}>{this.state.prefix+"11"}</option>
+        <option value={this.state.prefix+"12"}>{this.state.prefix+"12"}</option>
+        <option value={this.state.prefix+"13"}>{this.state.prefix+"13"}</option>
+        <option value={this.state.prefix+"14"}>{this.state.prefix+"14"}</option>
+        <option value={this.state.prefix+"15"}>{this.state.prefix+"15"}</option>
+        <option value={this.state.prefix+"16"}>{this.state.prefix+"16"}</option>
+        <option value={this.state.prefix+"17"}>{this.state.prefix+"17"}</option>
+        <option value={this.state.prefix+"18"}>{this.state.prefix+"18"}</option>
+        <option value={this.state.prefix+"19"}>{this.state.prefix+"19"}</option>
+        <option value={this.state.prefix+"20"}>{this.state.prefix+"20"}</option>
+        <option value={this.state.prefix+"21"}>{this.state.prefix+"21"}</option>
+        <option value={this.state.prefix+"22"}>{this.state.prefix+"22"}</option>
+      </select>
+      </span>
+    )
+  }
+}

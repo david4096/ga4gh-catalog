@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+//"leaf" items such as variants and features; API requests info using :container:/ID as props
 export default class Leaf extends Component{
   constructor() {
     super()
@@ -28,7 +29,6 @@ export default class Leaf extends Component{
   }
     
   render() {
-    //console.log("leaf", this.state.leaf);
     return <div className="json">
              <h3>{this.props.route.container}</h3>
              <div>{this.state.leaf}</div>
