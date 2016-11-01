@@ -7,6 +7,7 @@ import leaf from './leaf.js'
 import About from './About.js'
 import Container from './Container.js'
 
+//initialize router paths
 ReactDOM.render(<Router history={browserHistory}>
     <Route path="/" component={App}/>
     <Route path="/readgroups/:id" container="readgroups/" baseurl="http://1kgenomes.ga4gh.org/"

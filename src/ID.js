@@ -3,7 +3,7 @@ import $ from 'jquery'
 
 export default class ID extends Component {
 
-  copyToClipboard(e, elementId){
+  copyToClipboard(e, elementId){ //creates temporary text box, pastes the ID into it, and copies the ID to clipboard
       var aux = document.createElement("input");
       aux.setAttribute("value", elementId);
       document.body.appendChild(aux);
@@ -28,29 +28,5 @@ export default class ID extends Component {
             {this.props.id}
       </span>
     )
-  }
-}
-
-export class buttonID extends Component {
-  copyToClipboard(e, elementId){
-      var aux = document.createElement("input");
-      aux.setAttribute("value", elementId);
-      document.body.appendChild(aux);
-      aux.select();
-      document.execCommand("copy");
-      document.body.removeChild(aux);
-      
-      var element = document.getElementById(e._reactInternalInstance._rootNodeID);
-      var origCol = element.style.color;
-      
-      element.style.color = "gold";
-      setTimeout(function(){
-        element.style.color = origCol;
-      }, 200);
-      
-    }
-  render(){
-      return <span><button className="button"  id={this._reactInternalInstance._rootNodeID} onClick={()=>this.copyToClipboard(this, this.props.id)}>
-      copy ID to clipboard</button></span>
   }
 }

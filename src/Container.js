@@ -8,7 +8,7 @@ import { ListMetadata, ListVariantAnnotationSets, ListVariants,SearchVariants }
 import ID from './ID.js'
 import Toggle from './Toggle.js'
 
-
+//containers such as "variant and feature sets
 export default class Container extends Component{
   constructor() {
     super()
@@ -24,8 +24,6 @@ export default class Container extends Component{
         dataType: "json", 
         contentType: "application/json", 
         success: (result) => {
-          //console.log("loaded");
-          //console.log(JSON.stringify(result));
           this.setState({data: result});
         },
         error: (xhr, status, err) => {
@@ -37,8 +35,7 @@ export default class Container extends Component{
       this.serverRequest.abort();
     }
   render() {
-    //console.log("data", this.state.data);
-    if (this.props.route.container == "referencesets/"){
+    if (this.props.route.container == "referencesets/"){ //decide which header/layout to use, based on type of set
       this.loadFromServer();
       let data = this.state.data;
       return <div>
@@ -55,7 +52,6 @@ export default class Container extends Component{
     else if (this.props.route.container == "variantsets/"){
       this.loadFromServer();
       let data = this.state.data;
-      console.log("props", this.props);
         return (
         <div>
           <h3>variantsets/</h3>
@@ -77,7 +73,6 @@ export default class Container extends Component{
     else if (this.props.route.container == "featuresets/"){
         this.loadFromServer();
         let data = this.state.data;
-        //console.log("data", data);
         return <div>
           <h3>featuresets/</h3>
           <div>{data.name} <span className="label label-primary">name</span> </div>

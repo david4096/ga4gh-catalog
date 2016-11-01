@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import $ from 'jquery'
 import Variant from './Variant.js'
 import VariantAnnotationSet from './VariantAnnotationSet.js'
-import ID, { buttonID } from './ID.js'
+import ID from './ID.js'
 import Toggle from './Toggle.js'
 import { Link } from 'react-router'
+import { SelectReferences } from './ReferenceSet.js'
 
 export default class VariantSet extends Component {
   render() {
@@ -67,7 +68,6 @@ export class ListVariants extends Component {
       referenceName: "",
       start: "",
       end: "",
-      pageSize: "",
       currPage: 0,
       largestPage: 0,
       pageTokens: [null]
@@ -76,13 +76,13 @@ export class ListVariants extends Component {
   changedParamsState(){
     return ((this.props.referenceName != this.state.referenceName)
       || (this.props.start != this.state.start)
-      || (this.props.end != this.state.end)
-      || (this.props.pageSize != this.state.pageSize));
+      || (this.props.end != this.state.end));
   }
   changedPageState(){
     return (this.props.currPage != this.state.currPage);
   }
   loadFromServer(pageToken=this.state.pageTokens[this.props.currPage]) {
+      console.log("refName", this.props.referenceName);
     let type = {'content-type': 'application/json'};
     this.serverRequest = $.ajax(
       { url: this.props.baseurl + "/variants/search", 
@@ -91,7 +91,7 @@ export class ListVariants extends Component {
           end: this.props.end,
           referenceName: this.props.referenceName,
           variantSetId: this.props.variantSetId,
-          pageSize: this.props.pageSize,
+          pageSize: "20",
           pageToken: pageToken}), 
         dataType: "json", 
         contentType: "application/json", 
@@ -121,8 +121,8 @@ export class ListVariants extends Component {
       }
       console.log("currPage ", this.state.currPage);
       console.log("largest page ", this.state.largestPage);
-    if (!this.changedPageState() && this.changedParamsState()){
-      this.state.pageTokens = [null];
+    if (!this.changedPageState() && this.changedParamsState()){ //if only search terms changed
+      this.state.pageTokens = [null]; //reset all page-related variables
       this.state.largestPage = 0;
       this.state.currPage = 0;
       console.log("reset");
@@ -131,7 +131,6 @@ export class ListVariants extends Component {
     this.state.referenceName = this.props.referenceName;
     this.state.start = this.props.start;
     this.state.end = this.props.end;
-    this.state.pageSize = this.props.pageSize;
     }
     
     /*if (this.changedPageState()){
@@ -282,20 +281,17 @@ export class SearchVariants extends Component {
       refName: "",
       start: "",
       end: "",
-      pageSize: "",
       currPage: 0
     }
   }
-  searchVariants(){
+  searchVariants(){ //re-initializes search parameters based on HTML input form
     this.setState({currPage: 0});
     var refName = document.getElementById("refName").value;
     var start = document.getElementById("start").value;
     var end = document.getElementById("end").value;
-    var pageSize = document.getElementById("pageSize").value;
     this.setState({refName: refName});
     this.setState({start: start});
     this.setState({end: end});
-    this.setState({pageSize: pageSize});
     //console.log("ref name", this.state.refName);
   }
   updateCurrentPage(p){
@@ -308,17 +304,16 @@ export class SearchVariants extends Component {
     return (
       <span>
         <div>
-          <span className="searchBar">reference name: <input id="refName" size="5" defaultValue="1" type="text"/></span>
+          <span className="searchBar">reference name: </span>
+          <SelectReferences id="refName" layout="variants"/>
           <span className="searchBar">start: <input id="start" size="12" defaultValue="0" type="text"/></span>
           <span className="searchBar">end: <input size="12" id="end" defaultValue="4294967295" type="text"/>
-            </span>
-          <span className="searchBar">pageSize: <input size="4" id="pageSize" defaultValue="30" type="text"/>
             </span>
           <input onClick={()=>this.searchVariants()} type="submit" value="Search"/>
           <button onClick={()=>this.updateCurrentPage(-1)} className="button"> &larr; </button>
           <button onClick={()=>this.updateCurrentPage(1)} className="button"> &rarr; </button>
         </div>
-        <ListVariants baseurl={this.props.baseurl} variantSetId={this.props.id} referenceName={this.state.refName} start={this.state.start} end={this.state.end} pageSize={this.state.pageSize} currPage={this.state.currPage} />
+        <ListVariants baseurl={this.props.baseurl} variantSetId={this.props.id} referenceName={this.state.refName} start={this.state.start} end={this.state.end} currPage={this.state.currPage} />
       </span>
     )
   }
