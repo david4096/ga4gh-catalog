@@ -9,9 +9,10 @@ export default class FeatureSet extends Component {
   render() {
     return (
       <div>
-        <h2><Link to={'/featuresets/'+this.props.id}>Feature set: {this.props.name} </Link> <h4>(<ID id={this.props.id} />)</h4></h2>
-        <h3 style={{color:'#e520de'}}><i>{this.props.description}</i></h3>
-        </div>
+        <Link to={'/featuresets/'+this.props.id}>Feature set: {this.props.name} </Link>
+        (<ID id={this.props.id} />)
+        {this.props.description}
+      </div>
     )
   }
 }

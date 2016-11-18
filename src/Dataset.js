@@ -4,7 +4,6 @@ import VariantSet from './VariantSet.js'
 import ReadGroupSet from './ReadGroupSet.js'
 import FeatureSet from './FeatureSet.js'
 import ID from './ID.js'
-import Toggle from './Toggle.js'
 import { Link } from 'react-router'
 import Feature from './Feature.js'
 
@@ -13,14 +12,13 @@ export default class Dataset extends Component {
       //console.log("Dataset", this.props);
     return (
       <div>
-        <h1><Link to={'/datasets/'+this.props.id}>Dataset: {this.props.name} </Link></h1><h2>(<ID id={this.props.id} />)</h2>
-        <h3><i style={{color: "#e520de"}}>{this.props.description}</i></h3>
-        <Toggle text="dataset"/>
+        <Link to={'/datasets/'+this.props.id}>Dataset: {this.props.name}</Link>
+        (<ID id={this.props.id} />)
+        <div>{this.props.description}</div>
         <div><ListVariantSets {... this.props} datasetId={this.props.id} /></div>
         <div><ListFeatureSets {... this.props} datasetId={this.props.id} /></div>
-        <div><h2>Read Group Sets</h2>
-        <Toggle text="read group sets" defaultView="hide"/>
-        <ListReadGroupSets {... this.props} datasetId={this.props.id} /></div></div>
+        <ListReadGroupSets {... this.props} datasetId={this.props.id} />
+      </div>
     )
   }
 }

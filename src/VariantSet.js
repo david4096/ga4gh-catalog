@@ -10,7 +10,8 @@ export default class VariantSet extends Component {
   render() {
     return (
       <div>
-        <h2><Link to={'/variantsets/'+this.props.id}>Variant set: {this.props.name}</Link></h2> <h4> (<ID id={this.props.id} />) </h4>
+        <Link to={'/variantsets/'+this.props.id}>Variant set: {this.props.name}</Link>
+        (<ID id={this.props.id} />)
       </div>
     )
   }

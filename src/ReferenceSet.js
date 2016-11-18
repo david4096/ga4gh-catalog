@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import $ from 'jquery'
 import ID from './ID.js'
-import Toggle from './Toggle.js'
 import Reference from './Reference.js'
 import { Link } from 'react-router'
 
@@ -10,10 +9,9 @@ export default class ReferenceSet extends Component {
     // <ListVariants variantSetId={this.props.id} baseurl={this.props.baseurl} />
     return (
       <div>
-        <h1><Link to={'/referencesets/'+this.props.id}>Reference set: {this.props.name} </Link></h1>
-          <h2>(<ID id={this.props.id} />)</h2>
-        <h3 style={{color:"#e520de"}}><i>{this.props.description}</i></h3>
-        <Toggle text="reference set" defaultView="hide"/>
+        <Link to={'/referencesets/'+this.props.id}>Reference set: {this.props.name}</Link>
+        (<ID id={this.props.id} />)
+        <div>{this.props.description}</div>
         <ListReferences baseurl={this.props.baseurl} referenceSetId={this.props.id} />
       </div>
     )
