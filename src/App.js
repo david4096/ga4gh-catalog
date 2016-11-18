@@ -3,7 +3,6 @@ import $ from 'jquery'
 import Dataset from './Dataset.js'
 import ReferenceSet from './ReferenceSet.js'
 import { Link } from 'react-router'
-import Navbar from './Navbar.js'
 
 // load initial list of datasets
 
@@ -93,12 +92,43 @@ class ListDatasets extends Component {
   }
 }
 
-export default class App extends Component {
+class Nav extends Component {
   render() {
     return (
+        <div className="navbar navbar-dark bg-inverse">
+              <a className="navbar-brand" href="#">GA4GH Catalog</a>
+              <ul className="nav navbar-nav">
+                <li className="nav-item active">
+                  <input type="text" className="nav-link urlbox" value={this.props.baseurl} /> <span className="sr-only">(current)</span>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#">About</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#">Contact</a>
+                </li>
+              </ul>
+            </div>
+    )
+  }
+}
+
+export default class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      baseurl: "http://1kgenomes.ga4gh.org/"
+    }
+  }
+  render() {
+    let baseurl = this.state.baseurl;
+    return (
       <div>
-        <ListReferenceSets baseurl="http://1kgenomes.ga4gh.org/"/>
-        <ListDatasets baseurl="http://1kgenomes.ga4gh.org/"/>
+      <Nav baseurl={baseurl} />
+      <div className="container">
+        <ListReferenceSets baseurl={baseurl}/>
+        <ListDatasets baseurl={baseurl}/>
+      </div>
       </div>
     );
   }
