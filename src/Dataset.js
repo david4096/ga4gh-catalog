@@ -8,16 +8,40 @@ import { Link } from 'react-router'
 import Feature from './Feature.js'
 
 export default class Dataset extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      dataset: props
+    }
+  }
+  componentDidMount() {
+    this.loadFromServer();
+  }
+  componentWillUnmount() {
+    this.serverRequest.abort();
+  }
+  loadFromServer(pageToken=null) {
+    let type = {'content-type': 'application/json'};
+    this.serverRequest = $.ajax(
+      { url: this.props.route.baseurl + "datasets/" + this.state.dataset.id, 
+        type: "GET",
+        dataType: "json", 
+        contentType: "application/json", 
+        success: (result) => {
+          this.setState({dataset: result});
+        },
+        error: (xhr, status, err) => {
+          console.log(err);
+        }
+    });
+  }
   render() {
-      //console.log("Dataset", this.props);
     return (
       <div>
-        <Link to={'/datasets/'+this.props.id}>Dataset: {this.props.name}</Link>
-        (<ID id={this.props.id} />)
-        <div>{this.props.description}</div>
-        <div><ListVariantSets {... this.props} datasetId={this.props.id} /></div>
-        <div><ListFeatureSets {... this.props} datasetId={this.props.id} /></div>
-        <ListReadGroupSets {... this.props} datasetId={this.props.id} />
+        <Link to={'/datasets/' + this.state.dataset.id}>Dataset: {this.state.dataset.name}</Link>
+        (<ID id={this.state.dataset.id} />)
+        <div>{this.state.dataset.description}</div>
+        
       </div>
     )
   }
