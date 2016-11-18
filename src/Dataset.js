@@ -10,8 +10,14 @@ import Feature from './Feature.js'
 export default class Dataset extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      dataset: props
+    if (this.props.params.datasetId) {
+      this.state = {
+        dataset: {id: this.props.params.datasetId}
+      }
+    } else {
+      this.state = {
+        dataset: this.props.dataset
+      }
     }
   }
   componentDidMount() {
@@ -39,53 +45,10 @@ export default class Dataset extends Component {
     return (
       <div>
         <Link to={'/datasets/' + this.state.dataset.id}>Dataset: {this.state.dataset.name}</Link>
-        (<ID id={this.state.dataset.id} />)
+        <ID id={this.state.dataset.id} />
         <div>{this.state.dataset.description}</div>
-        
-      </div>
-    )
-  }
-}
-
-class ListVariantSets extends Component {
-  constructor() {
-    super()
-    this.state = {
-      variantSets: []
-    }
-  }
-  loadFromServer(pageToken=null) {
-    let type = {'content-type': 'application/json'};
-    this.serverRequest = $.ajax(
-      { url: this.props.baseurl + "/variantsets/search", 
-        type: "POST",
-        data: JSON.stringify({datasetId: this.props.datasetId, pageToken: pageToken}), 
-        dataType: "json", 
-        contentType: "application/json", 
-        success: (result) => {
-          this.setState({variantSets: this.state.variantSets.concat(result.variantSets)});
-          if (result.nextPageToken != "") {
-            this.loadFromServer(result.nextPageToken)
-          }
-        },
-        error: (xhr, status, err) => {
-          console.log(err);
-        }
-    });
-  }
-  componentDidMount() {
-    this.loadFromServer();
-  }
-  componentWillUnmount() {
-    this.serverRequest.abort();
-  }
-  render() {
-    let variantsets = this.state.variantSets;
-    return (
-      <div className="blueContainer">
-      {variantsets.map((variantset) => {
-        return <VariantSet baseurl={this.props.baseurl} {... variantset} />
-      })}
+        <div><Link to={'/datasets/' + this.state.dataset.id + '/variantsets'}>Variant sets</Link></div>
+      {this.props.children}
       </div>
     )
   }

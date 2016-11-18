@@ -14,8 +14,9 @@ table {
 }
 
 .identifier {
-  max-width: 50px;
-  display: block-inline;
+  max-width: 60px;
+  display: inline-block;
+  overflow: scroll;
   font-size: 50%;
   padding: 6px;
   color: #999;

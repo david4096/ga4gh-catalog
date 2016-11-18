@@ -37,7 +37,7 @@ export default class ReferenceSet extends Component {
     return (
       <div>
         <Link to={'/referencesets/'+this.state.referenceSet.id}>Reference set: {this.state.referenceSet.name}</Link>
-        (<ID id={this.state.referenceSet.id} />)
+        <ID id={this.state.referenceSet.id} />
         <div>{this.state.referenceSet.description}</div>
         <ListReferences {... this.props} />
       </div>

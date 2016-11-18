@@ -6,24 +6,27 @@ import FeatureSet from './FeatureSet.js'
 import ID from './ID.js'
 import { Link } from 'react-router'
 import Feature from './Feature.js'
-import Dataset from './Dataset.js'
 
-export default class ListDatasets extends Component {
-  constructor() {
-    super()
+export default class ListVariantSets extends Component {
+  constructor(props) {
+    super(props)
     this.state = {
-      datasets : []
+      variantSets: []
     }
   }
-  loadFromServer() {
+  loadFromServer(pageToken=null) {
     let type = {'content-type': 'application/json'};
     this.serverRequest = $.ajax(
-      { url: this.props.route.baseurl + "datasets/search",
-        type: "POST", data: JSON.stringify({pageToken: null}), 
+      { url: this.props.route.baseurl + "variantsets/search", 
+        type: "POST",
+        data: JSON.stringify({datasetId: this.props.params.datasetId, pageToken: pageToken}), 
         dataType: "json", 
         contentType: "application/json", 
         success: (result) => {
-          this.setState({datasets: result.datasets});
+          this.setState({variantSets: this.state.variantSets.concat(result.variantSets)});
+          if (result.nextPageToken != "") {
+            this.loadFromServer(result.nextPageToken)
+          }
         },
         error: (xhr, status, err) => {
           console.log(err);
@@ -37,11 +40,11 @@ export default class ListDatasets extends Component {
     this.serverRequest.abort();
   }
   render() {
-    let datasets = this.state.datasets;
+    let variantsets = this.state.variantSets;
     return (
-      <div>
-      {datasets.map((dataset) => {
-        return <Dataset {... this.props} dataset={dataset} key={dataset.id} />
+      <div className="blueContainer">
+      {variantsets.map((variantset) => {
+        return <VariantSet {... this.props} variantSet={variantset} />
       })}
       </div>
     )
