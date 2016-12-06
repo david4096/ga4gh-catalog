@@ -157,7 +157,7 @@ export class ListVariants extends Component {
       </thead>
       <tbody>
       {variants.map((variant) => {
-        return <Variant baseurl={this.props.baseurl} {... variant} />
+        return <Variant variant={variant} baseurl={this.props.baseurl}/>
       })}
       </tbody>
       </table>

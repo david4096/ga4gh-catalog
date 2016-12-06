@@ -1,25 +1,24 @@
 import React, { Component } from 'react';
 import $ from 'jquery'
-import VariantSet from './VariantSet.js'
+import VariantSet from './FeatureSet.js'
 import { Link } from 'react-router'
 
-export default class ListVariantSets extends Component {
-  constructor(props) {
-    super(props)
+class ListFeatureSets extends Component {
+  constructor() {
+    super()
     this.state = {
-      variantSets: []
+      featureSets : []
     }
   }
   loadFromServer(pageToken=null) {
     let type = {'content-type': 'application/json'};
     this.serverRequest = $.ajax(
-      { url: this.props.route.baseurl + "variantsets/search", 
-        type: "POST",
-        data: JSON.stringify({datasetId: this.props.params.datasetId, pageToken: pageToken}), 
+      { url: this.props.baseurl + "/featuresets/search",
+        type: "POST", data: JSON.stringify({datasetId: this.props.datasetId, pageToken: pageToken}),
         dataType: "json", 
         contentType: "application/json", 
         success: (result) => {
-          this.setState({variantSets: this.state.variantSets.concat(result.variantSets)});
+          this.setState({featureSets: this.state.featureSets.concat(result.featureSets)});
           if (result.nextPageToken != "") {
             this.loadFromServer(result.nextPageToken)
           }
@@ -36,11 +35,11 @@ export default class ListVariantSets extends Component {
     this.serverRequest.abort();
   }
   render() {
-    let variantsets = this.state.variantSets;
+    let featureSets = this.state.featureSets;
     return (
-      <div className="blueContainer">
-      {variantsets.map((variantset) => {
-        return <VariantSet {... this.props} variantSet={variantset} key={variantset.id}/>
+      <div className="greenContainer">
+      {featureSets.map((featureSet) => {
+        return <FeatureSet {... this.props} {... featureSet} />
       })}
       </div>
     )

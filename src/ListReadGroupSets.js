@@ -1,27 +1,28 @@
 import React, { Component } from 'react';
 import $ from 'jquery'
-import VariantSet from './VariantSet.js'
+import ReadGroupSet from './ReadGroupSet.js'
 import { Link } from 'react-router'
 
-export default class ListVariantSets extends Component {
-  constructor(props) {
-    super(props)
+export default class ListReadGroupSets extends Component {
+  constructor() {
+    super()
     this.state = {
-      variantSets: []
+      readgroupsets: [] 
     }
   }
   loadFromServer(pageToken=null) {
     let type = {'content-type': 'application/json'};
     this.serverRequest = $.ajax(
-      { url: this.props.route.baseurl + "variantsets/search", 
+      { url: this.props.route.baseurl + "readgroupsets/search", 
         type: "POST",
         data: JSON.stringify({datasetId: this.props.params.datasetId, pageToken: pageToken}), 
         dataType: "json", 
         contentType: "application/json", 
         success: (result) => {
-          this.setState({variantSets: this.state.variantSets.concat(result.variantSets)});
-          if (result.nextPageToken != "") {
-            this.loadFromServer(result.nextPageToken)
+          console.log(result)
+          this.setState({readgroupsets: this.state.readgroupsets.concat(result.readGroupSets)});
+          if (result.nextPageToken !== "") {
+            this.loadFromServer(result.nextPageToken);
           }
         },
         error: (xhr, status, err) => {
@@ -36,11 +37,11 @@ export default class ListVariantSets extends Component {
     this.serverRequest.abort();
   }
   render() {
-    let variantsets = this.state.variantSets;
+    let readgroupsets = this.state.readgroupsets;
     return (
-      <div className="blueContainer">
-      {variantsets.map((variantset) => {
-        return <VariantSet {... this.props} variantSet={variantset} key={variantset.id}/>
+      <div className="scrollable">
+      {readgroupsets.map((readgroupset) => {
+        return <ReadGroupSet baseurl={this.props.baseurl} {... readgroupset} />
       })}
       </div>
     )

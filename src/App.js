@@ -1,18 +1,5 @@
 import React, { Component } from 'react';
-import $ from 'jquery'
-import Dataset from './Dataset.js'
-import ReferenceSet from './ReferenceSet.js'
 import { Link } from 'react-router'
-
-// load initial list of datasets
-
-//datasets/search 
-//pageToken: null,
-
-//paths = {}
-//paths.searchDatasets = "datasets/search"
-
-
 
 class Nav extends Component {
   render() {
@@ -39,7 +26,7 @@ export default class App extends Component {
   constructor() {
     super()
     this.state = {
-      baseurl: "http://1kgenomes.ga4gh.org/"
+      baseurl: "http://localhost:8000/"
     }
   }
   render() {

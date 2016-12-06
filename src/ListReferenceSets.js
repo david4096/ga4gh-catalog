@@ -14,7 +14,7 @@ export default class ListReferenceSets extends Component {
   loadFromServer() {
     let type = {'content-type': 'application/json'};
     this.serverRequest = $.ajax(
-      { url: this.props.route.baseurl + "/referencesets/search", 
+      { url: this.props.route.baseurl + "referencesets/search", 
         type: "POST", data: JSON.stringify({}),
         dataType: "json", 
         contentType: "application/json", 

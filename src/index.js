@@ -14,15 +14,20 @@ import VariantSet from './VariantSet.js'
 import ReadGroupSet from './ReadGroupSet.js'
 import FeatureSet from './FeatureSet.js'
 import SearchVariants from './SearchVariants.js'
+import ListReadGroupSets from './ListReadGroupSets.js'
 import ListVariantSets from './ListVariantSets.js'
+import ListFeatureSets from './ListFeatureSets.js'
+import Variant from './Variant.js'
 
-let baseurl = "http://1kgenomes.ga4gh.org/"
+let baseurl = "http://localhost:8000/"
 
 ReactDOM.render(<Router history={browserHistory}>
     <Route path="/" component={App}>
       <Route path="datasets" baseurl={baseurl} component={ListDatasets}/>
       <Route path="datasets/:datasetId" baseurl={baseurl} component={Dataset}>
         <Route path="variantsets" baseurl={baseurl} component={ListVariantSets}/>
+        <Route path="readgroupsets" baseurl={baseurl} component={ListReadGroupSets}/>
+        <Route path="featuresets" baseurl={baseurl} component={ListFeatureSets}/>
       </Route>
       <Route path="referencesets" baseurl={baseurl} component={ListReferenceSets} >
         <Route path=":id" baseurl={baseurl} component={ReferenceSet} />
@@ -30,8 +35,9 @@ ReactDOM.render(<Router history={browserHistory}>
       <Route path="variantsets/:variantSetId" baseurl={baseurl} component={VariantSet}>
         <Route path="variants" baseurl={baseurl} component={SearchVariants} />
       </Route>
-      <Route path="readgroupsets/:id" baseurl={baseurl} component={ReadGroupSet} />
-      <Route path="featuresets/:id" baseurl={baseurl} component={FeatureSet} />
+      <Route path="variants/:variantId" baseurl={baseurl} component={Variant} />
+      <Route path="readgroupsets/:readGroupSetId" baseurl={baseurl} component={ReadGroupSet} />
+      <Route path="featuresets/:featureSetId" baseurl={baseurl} component={FeatureSet} />
     </Route>
     <Route path="/about" component={About}/>
  </Router>, document.getElementById('root'));

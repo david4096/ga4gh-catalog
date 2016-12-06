@@ -16,6 +16,7 @@ export default class ListDatasets extends Component {
     }
   }
   loadFromServer() {
+    console.log(this.props);
     let type = {'content-type': 'application/json'};
     this.serverRequest = $.ajax(
       { url: this.props.route.baseurl + "datasets/search",
