@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import $ from 'jquery'
 
 export default class ID extends Component {
-
   copyToClipboard(e, elementId){
       var aux = document.createElement("input");
       aux.setAttribute("value", elementId);
@@ -24,7 +23,7 @@ export default class ID extends Component {
   render() {
       //console.log({this.props.id}, ": ", {this._reactInternalInstance});
     return (
-      <span className="pointer" id={this._reactInternalInstance._rootNodeID} onClick={()=>this.copyToClipboard(this, this.props.id)}>
+      <span className="pointer identifier" title="Copy to clipboard" id={this._reactInternalInstance._rootNodeID} onClick={()=>this.copyToClipboard(this, this.props.id)}>
             {this.props.id}
       </span>
     )

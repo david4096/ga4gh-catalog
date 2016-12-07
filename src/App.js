@@ -1,104 +1,42 @@
 import React, { Component } from 'react';
-import $ from 'jquery'
-import Dataset from './Dataset.js'
-import ReferenceSet from './ReferenceSet.js'
 import { Link } from 'react-router'
-import Navbar from './Navbar.js'
 
-// load initial list of datasets
-
-//datasets/search 
-//pageToken: null,
-
-//paths = {}
-//paths.searchDatasets = "datasets/search"
-
-class ListReferenceSets extends Component {
-  constructor() {
-    super()
-    this.state = {
-      referenceSets : []
-    }
-  }
-  loadFromServer() {
-    let type = {'content-type': 'application/json'};
-    this.serverRequest = $.ajax(
-      { url: this.props.baseurl + "/referencesets/search", 
-        type: "POST", data: JSON.stringify({}),
-        dataType: "json", 
-        contentType: "application/json", 
-        success: (result) => {
-          this.setState({referenceSets: result.referenceSets});
-        },
-        error: (xhr, status, err) => {
-          console.log(err);
-        }
-    });
-  }
-  componentDidMount() {
-    this.loadFromServer();
-  }
-  componentWillUnmount() {
-    this.serverRequest.abort();
-  }
+class Nav extends Component {
   render() {
-    let referenceSets = this.state.referenceSets;
     return (
-      <div>
-      {referenceSets.map((referenceSet) => {
-        return <ReferenceSet {... this.props} {... referenceSet} />
-      })}
-      </div>
-    )
-  }
-}
-
-class ListDatasets extends Component {
-  constructor() {
-    super()
-    this.state = {
-      datasets : []
-    }
-  }
-  loadFromServer() {
-    let type = {'content-type': 'application/json'};
-    this.serverRequest = $.ajax(
-      { url: this.props.baseurl + "/datasets/search",
-        type: "POST", data: JSON.stringify({pageToken: null}), 
-        dataType: "json", 
-        contentType: "application/json", 
-        success: (result) => {
-          this.setState({datasets: result.datasets});
-        },
-        error: (xhr, status, err) => {
-          console.log(err);
-        }
-    });
-  }
-  componentDidMount() {
-    this.loadFromServer();
-  }
-  componentWillUnmount() {
-    this.serverRequest.abort();
-  }
-  render() {
-    let datasets = this.state.datasets;
-    return (
-      <div>
-      {datasets.map((dataset) => {
-        return <Dataset {... this.props} {... dataset} />
-      })}
-      </div>
+        <div className="navbar navbar-dark bg-inverse">
+              <Link className="navbar-brand" to="/">GA4GH Catalog</Link>
+              <ul className="nav navbar-nav">
+                <li className="nav-item active">
+                  <input type="text" className="nav-link urlbox" value={this.props.baseurl} /> <span className="sr-only">(current)</span>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/datasets">Datasets</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/referencesets">Reference Sets</Link>
+                </li>
+              </ul>
+            </div>
     )
   }
 }
 
 export default class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      baseurl: "http://localhost:8000/"
+    }
+  }
   render() {
+    let baseurl = this.state.baseurl;
     return (
       <div>
-        <ListReferenceSets baseurl="http://1kgenomes.ga4gh.org/"/>
-        <ListDatasets baseurl="http://1kgenomes.ga4gh.org/"/>
+        <Nav baseurl={baseurl} />
+        <div className="container-fluid">
+          {this.props.children}
+        </div>
       </div>
     );
   }
